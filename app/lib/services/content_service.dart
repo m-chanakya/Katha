@@ -19,15 +19,24 @@ class ContentService {
   static const String bundledAssetPath = 'assets/content/bundle.json';
   static const Duration fetchTimeout = Duration(seconds: 4);
 
+  /// Test-only escape hatch: skips the network attempt entirely and
+  /// goes straight to the bundled asset. Widget tests set this so the
+  /// suite never depends on flutter_test's fake-HTTP-client behavior
+  /// (which caused `pumpAndSettle` to hang indefinitely -- see
+  /// test/widget_test.dart) -- production code never sets this.
+  static bool debugSkipRemoteFetch = false;
+
   Future<ContentBundle> load() async {
     Map<String, dynamic>? remoteJson;
-    try {
-      final response = await http.get(Uri.parse(remoteUrl)).timeout(fetchTimeout);
-      if (response.statusCode == 200) {
-        remoteJson = jsonDecode(response.body) as Map<String, dynamic>;
+    if (!debugSkipRemoteFetch) {
+      try {
+        final response = await http.get(Uri.parse(remoteUrl)).timeout(fetchTimeout);
+        if (response.statusCode == 200) {
+          remoteJson = jsonDecode(response.body) as Map<String, dynamic>;
+        }
+      } catch (_) {
+        // Offline, blocked, or CDN not deployed yet -- fall through to bundled.
       }
-    } catch (_) {
-      // Offline, blocked, or CDN not deployed yet -- fall through to bundled.
     }
 
     final bundledRaw = await rootBundle.loadString(bundledAssetPath);
