@@ -6,18 +6,27 @@ import 'package:katha/main.dart';
 import 'package:katha/screens/session_screen.dart';
 import 'package:katha/services/content_service.dart';
 
-/// Pumps a bounded number of frames instead of `pumpAndSettle`.
+/// Pumps frames until [finder] finds something, instead of
+/// `pumpAndSettle` or a fixed pump count.
 ///
 /// `pumpAndSettle` never returns while an indeterminate
 /// `CircularProgressIndicator` is in the tree (its `AnimationController`
 /// repeats forever, so a new frame is always scheduled) -- both loading
-/// gates in `_AppRoot` show one while their Future is pending. A fixed
-/// number of pumps lets those Futures resolve and the indicator get
-/// replaced, without ever depending on "no more frames scheduled".
-Future<void> pumpUntilLoaded(WidgetTester tester, {int times = 15}) async {
-  for (var i = 0; i < times; i++) {
+/// gates in `_AppRoot` show one while their Future is pending. A *fixed*
+/// pump count avoids that trap but turned out to be flaky the other
+/// direction: how many pumps the content/prefs load actually needs
+/// varies run to run (cold-start plugin registration, asset-bundle
+/// warmup), so a count that's enough on one run can be too few on the
+/// next. Polling for the widget we actually care about is robust to
+/// both: it returns as soon as it can, and only fails for a real reason
+/// once [maxPumps] is exhausted.
+Future<void> pumpUntil(WidgetTester tester, Finder finder, {int maxPumps = 100}) async {
+  for (var i = 0; i < maxPumps; i++) {
+    if (finder.evaluate().isNotEmpty) return;
     await tester.pump(const Duration(milliseconds: 100));
   }
+  // Let the final `expect` below produce the real failure message
+  // (found 0 widgets) rather than a generic "gave up polling" one.
 }
 
 void main() {
@@ -35,7 +44,7 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     await tester.pumpWidget(const KathaApp());
-    await pumpUntilLoaded(tester);
+    await pumpUntil(tester, find.text('Katha'));
 
     expect(find.text('Katha'), findsOneWidget);
     expect(find.text('Greetings'), findsOneWidget);
@@ -46,10 +55,10 @@ void main() {
     SharedPreferences.setMockInitialValues({});
 
     await tester.pumpWidget(const KathaApp());
-    await pumpUntilLoaded(tester);
+    await pumpUntil(tester, find.text('Greetings'));
 
     await tester.tap(find.text('Greetings'));
-    await pumpUntilLoaded(tester, times: 5);
+    await pumpUntil(tester, find.byType(SessionScreen));
 
     // Exercise content is randomized (generator + shuffle), so this
     // checks the session screen loaded and is showing *an* exercise
