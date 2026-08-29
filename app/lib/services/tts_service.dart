@@ -44,17 +44,17 @@ class TtsService {
   }
 
   /// Speaks [word], preferring native Telugu script when a Telugu voice is
-  /// available. Returns false if the TTS engine reported a failure, so the
-  /// UI can tell the learner pronunciation isn't available right now
-  /// instead of failing silently.
+  /// available. Returns false only if the engine actually threw — the
+  /// success value some platforms return from `speak()` isn't consistent
+  /// enough across web/iOS/Android to gate the UI on, so a thrown
+  /// exception is the only signal treated as a real failure.
   Future<bool> speakWord(Word word) async {
     await _ensureInit();
     final text = _teluguVoiceAvailable ? word.ttsText : word.telugu;
     try {
       await _tts.stop();
-      final result = await _tts.speak(text);
-      // Most platforms return 1 for success; treat anything else as failure.
-      return result == 1;
+      await _tts.speak(text);
+      return true;
     } catch (e) {
       debugPrint('TtsService: speak("$text") failed: $e');
       return false;
