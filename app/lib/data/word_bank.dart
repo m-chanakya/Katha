@@ -26,6 +26,7 @@ class WordBank {
     Word(
       id: 'namaskaram',
       telugu: 'Namaskaram',
+      scriptForTts: 'నమస్కారం',
       english: 'Hello',
       categoryId: 'greetings',
       partOfSpeech: 'interjection',
@@ -36,6 +37,7 @@ class WordBank {
     Word(
       id: 'ela_unnaru',
       telugu: 'Ela unnaru',
+      scriptForTts: 'ఎలా ఉన్నారు',
       english: 'How are you (formal)',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -46,6 +48,7 @@ class WordBank {
     Word(
       id: 'bagunnanu',
       telugu: 'Bagunnanu',
+      scriptForTts: 'బాగున్నాను',
       english: 'I am fine',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -56,6 +59,7 @@ class WordBank {
     Word(
       id: 'dhanyavaadamulu',
       telugu: 'Dhanyavaadamulu',
+      scriptForTts: 'ధన్యవాదములు',
       english: 'Thank you',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -66,6 +70,7 @@ class WordBank {
     Word(
       id: 'sare',
       telugu: 'Sare',
+      scriptForTts: 'సరే',
       english: 'Okay',
       categoryId: 'greetings',
       partOfSpeech: 'interjection',
@@ -76,6 +81,7 @@ class WordBank {
     Word(
       id: 'kalustaam',
       telugu: 'Kalustaam',
+      scriptForTts: 'కలుస్తాం',
       english: "(we'll) meet",
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -86,6 +92,7 @@ class WordBank {
     Word(
       id: 'shubhodayam',
       telugu: 'Shubhodayam',
+      scriptForTts: 'శుభోదయం',
       english: 'Good morning',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -96,6 +103,7 @@ class WordBank {
     Word(
       id: 'shubharaatri',
       telugu: 'Shubharaatri',
+      scriptForTts: 'శుభరాత్రి',
       english: 'Good night',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -106,6 +114,7 @@ class WordBank {
     Word(
       id: 'manninchandi',
       telugu: 'Manninchandi',
+      scriptForTts: 'మన్నించండి',
       english: 'Sorry / excuse me (formal)',
       categoryId: 'greetings',
       partOfSpeech: 'phrase',
@@ -116,6 +125,7 @@ class WordBank {
     Word(
       id: 'dayachesi',
       telugu: 'Dayachesi',
+      scriptForTts: 'దయచేసి',
       english: 'Please',
       categoryId: 'greetings',
       partOfSpeech: 'adverb',
@@ -128,6 +138,7 @@ class WordBank {
     Word(
       id: 'amma',
       telugu: 'Amma',
+      scriptForTts: 'అమ్మ',
       english: 'Mother',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -138,6 +149,7 @@ class WordBank {
     Word(
       id: 'naanna',
       telugu: 'Naanna',
+      scriptForTts: 'నాన్న',
       english: 'Father',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -148,6 +160,7 @@ class WordBank {
     Word(
       id: 'anna',
       telugu: 'Anna',
+      scriptForTts: 'అన్న',
       english: 'Elder brother',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -158,6 +171,7 @@ class WordBank {
     Word(
       id: 'akka',
       telugu: 'Akka',
+      scriptForTts: 'అక్క',
       english: 'Elder sister',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -168,6 +182,7 @@ class WordBank {
     Word(
       id: 'thammudu',
       telugu: 'Thammudu',
+      scriptForTts: 'తమ్ముడు',
       english: 'Younger brother',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -178,6 +193,7 @@ class WordBank {
     Word(
       id: 'chelli',
       telugu: 'Chelli',
+      scriptForTts: 'చెల్లి',
       english: 'Younger sister',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -188,6 +204,7 @@ class WordBank {
     Word(
       id: 'thatha',
       telugu: 'Thatha',
+      scriptForTts: 'తాత',
       english: 'Grandfather',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -198,6 +215,7 @@ class WordBank {
     Word(
       id: 'nanamma',
       telugu: 'Nanamma',
+      scriptForTts: 'నానమ్మ',
       english: 'Grandmother',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -209,6 +227,7 @@ class WordBank {
     Word(
       id: 'bhaarya',
       telugu: 'Bhaarya',
+      scriptForTts: 'భార్య',
       english: 'Wife',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -219,6 +238,7 @@ class WordBank {
     Word(
       id: 'bharta',
       telugu: 'Bharta',
+      scriptForTts: 'భర్త',
       english: 'Husband',
       categoryId: 'family',
       partOfSpeech: 'noun',
@@ -231,6 +251,7 @@ class WordBank {
     Word(
       id: 'okati',
       telugu: 'Okati',
+      scriptForTts: 'ఒకటి',
       english: 'One',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -239,6 +260,7 @@ class WordBank {
     Word(
       id: 'rendu',
       telugu: 'Rendu',
+      scriptForTts: 'రెండు',
       english: 'Two',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -247,6 +269,7 @@ class WordBank {
     Word(
       id: 'moodu',
       telugu: 'Moodu',
+      scriptForTts: 'మూడు',
       english: 'Three',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -255,6 +278,7 @@ class WordBank {
     Word(
       id: 'naalugu',
       telugu: 'Naalugu',
+      scriptForTts: 'నాలుగు',
       english: 'Four',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -263,6 +287,7 @@ class WordBank {
     Word(
       id: 'aidu',
       telugu: 'Aidu',
+      scriptForTts: 'ఐదు',
       english: 'Five',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -271,6 +296,7 @@ class WordBank {
     Word(
       id: 'aaru',
       telugu: 'Aaru',
+      scriptForTts: 'ఆరు',
       english: 'Six',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -279,6 +305,7 @@ class WordBank {
     Word(
       id: 'edu',
       telugu: 'Edu',
+      scriptForTts: 'ఏడు',
       english: 'Seven',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -287,6 +314,7 @@ class WordBank {
     Word(
       id: 'enimidi',
       telugu: 'Enimidi',
+      scriptForTts: 'ఎనిమిది',
       english: 'Eight',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -295,6 +323,7 @@ class WordBank {
     Word(
       id: 'tommidi',
       telugu: 'Tommidi',
+      scriptForTts: 'తొమ్మిది',
       english: 'Nine',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -303,6 +332,7 @@ class WordBank {
     Word(
       id: 'padi',
       telugu: 'Padi',
+      scriptForTts: 'పది',
       english: 'Ten',
       categoryId: 'numbers',
       partOfSpeech: 'number',
@@ -313,6 +343,7 @@ class WordBank {
     Word(
       id: 'erra',
       telugu: 'Erra',
+      scriptForTts: 'ఎర్ర',
       english: 'Red',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -321,6 +352,7 @@ class WordBank {
     Word(
       id: 'pacha',
       telugu: 'Pacha',
+      scriptForTts: 'పచ్చ',
       english: 'Green',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -329,6 +361,7 @@ class WordBank {
     Word(
       id: 'nalla',
       telugu: 'Nalla',
+      scriptForTts: 'నల్ల',
       english: 'Black',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -337,6 +370,7 @@ class WordBank {
     Word(
       id: 'thella',
       telugu: 'Thella',
+      scriptForTts: 'తెల్ల',
       english: 'White',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -345,6 +379,7 @@ class WordBank {
     Word(
       id: 'pasupu',
       telugu: 'Pasupu',
+      scriptForTts: 'పసుపు',
       english: 'Yellow',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -354,6 +389,7 @@ class WordBank {
     Word(
       id: 'neelam',
       telugu: 'Neelam',
+      scriptForTts: 'నీలం',
       english: 'Blue',
       categoryId: 'colors',
       partOfSpeech: 'adjective',
@@ -362,6 +398,7 @@ class WordBank {
     Word(
       id: 'godhuma_rangu',
       telugu: 'Godhuma rangu',
+      scriptForTts: 'గోధుమ రంగు',
       english: 'Brown',
       categoryId: 'colors',
       partOfSpeech: 'noun phrase',
@@ -371,6 +408,7 @@ class WordBank {
     Word(
       id: 'kamala_rangu',
       telugu: 'Kamala rangu',
+      scriptForTts: 'కమలా రంగు',
       english: 'Orange',
       categoryId: 'colors',
       partOfSpeech: 'noun phrase',
@@ -379,6 +417,7 @@ class WordBank {
     Word(
       id: 'gulabi_rangu',
       telugu: 'Gulabi rangu',
+      scriptForTts: 'గులాబీ రంగు',
       english: 'Pink',
       categoryId: 'colors',
       partOfSpeech: 'noun phrase',
@@ -388,6 +427,7 @@ class WordBank {
     Word(
       id: 'ooda_rangu',
       telugu: 'Ooda rangu',
+      scriptForTts: 'ఊదా రంగు',
       english: 'Purple',
       categoryId: 'colors',
       partOfSpeech: 'noun phrase',
@@ -398,6 +438,7 @@ class WordBank {
     Word(
       id: 'annam',
       telugu: 'Annam',
+      scriptForTts: 'అన్నం',
       english: 'Rice / food',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -406,6 +447,7 @@ class WordBank {
     Word(
       id: 'neellu',
       telugu: 'Neellu',
+      scriptForTts: 'నీళ్ళు',
       english: 'Water',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -414,6 +456,7 @@ class WordBank {
     Word(
       id: 'paalu',
       telugu: 'Paalu',
+      scriptForTts: 'పాలు',
       english: 'Milk',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -422,6 +465,7 @@ class WordBank {
     Word(
       id: 'kaapi',
       telugu: 'Kaapi',
+      scriptForTts: 'కాఫీ',
       english: 'Coffee',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -430,6 +474,7 @@ class WordBank {
     Word(
       id: 'tea',
       telugu: 'Tea',
+      scriptForTts: 'టీ',
       english: 'Tea',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -439,6 +484,7 @@ class WordBank {
     Word(
       id: 'pandu',
       telugu: 'Pandu',
+      scriptForTts: 'పండు',
       english: 'Fruit',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -447,6 +493,7 @@ class WordBank {
     Word(
       id: 'koora',
       telugu: 'Koora',
+      scriptForTts: 'కూర',
       english: 'Curry (vegetable dish)',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -455,6 +502,7 @@ class WordBank {
     Word(
       id: 'rotte',
       telugu: 'Rotte',
+      scriptForTts: 'రొట్టె',
       english: 'Bread / roti',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -463,6 +511,7 @@ class WordBank {
     Word(
       id: 'uppu',
       telugu: 'Uppu',
+      scriptForTts: 'ఉప్పు',
       english: 'Salt',
       categoryId: 'food',
       partOfSpeech: 'noun',
@@ -471,6 +520,7 @@ class WordBank {
     Word(
       id: 'theepi',
       telugu: 'Theepi',
+      scriptForTts: 'తీపి',
       english: 'Sweet',
       categoryId: 'food',
       partOfSpeech: 'adjective / noun',
@@ -481,6 +531,7 @@ class WordBank {
     Word(
       id: 'ekkada',
       telugu: 'Ekkada',
+      scriptForTts: 'ఎక్కడ',
       english: 'Where',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -489,6 +540,7 @@ class WordBank {
     Word(
       id: 'eppudu',
       telugu: 'Eppudu',
+      scriptForTts: 'ఎప్పుడు',
       english: 'When',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -497,6 +549,7 @@ class WordBank {
     Word(
       id: 'ela',
       telugu: 'Ela',
+      scriptForTts: 'ఎలా',
       english: 'How',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -505,6 +558,7 @@ class WordBank {
     Word(
       id: 'enduku',
       telugu: 'Enduku',
+      scriptForTts: 'ఎందుకు',
       english: 'Why',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -513,6 +567,7 @@ class WordBank {
     Word(
       id: 'evaru',
       telugu: 'Evaru',
+      scriptForTts: 'ఎవరు',
       english: 'Who',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -521,6 +576,7 @@ class WordBank {
     Word(
       id: 'enti',
       telugu: 'Enti',
+      scriptForTts: 'ఏంటి',
       english: 'What',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -529,6 +585,7 @@ class WordBank {
     Word(
       id: 'enta',
       telugu: 'Enta',
+      scriptForTts: 'ఎంత',
       english: 'How much',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -537,6 +594,7 @@ class WordBank {
     Word(
       id: 'edi',
       telugu: 'Edi',
+      scriptForTts: 'ఏది',
       english: 'Which (one)',
       categoryId: 'questions',
       partOfSpeech: 'question word',
@@ -547,6 +605,7 @@ class WordBank {
     Word(
       id: 'somavaram',
       telugu: 'Somavaram',
+      scriptForTts: 'సోమవారం',
       english: 'Monday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -555,6 +614,7 @@ class WordBank {
     Word(
       id: 'mangalavaram',
       telugu: 'Mangalavaram',
+      scriptForTts: 'మంగళవారం',
       english: 'Tuesday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -563,6 +623,7 @@ class WordBank {
     Word(
       id: 'budhavaram',
       telugu: 'Budhavaram',
+      scriptForTts: 'బుధవారం',
       english: 'Wednesday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -571,6 +632,7 @@ class WordBank {
     Word(
       id: 'guruvaram',
       telugu: 'Guruvaram',
+      scriptForTts: 'గురువారం',
       english: 'Thursday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -579,6 +641,7 @@ class WordBank {
     Word(
       id: 'sukravaram',
       telugu: 'Sukravaram',
+      scriptForTts: 'శుక్రవారం',
       english: 'Friday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -587,6 +650,7 @@ class WordBank {
     Word(
       id: 'shanivaram',
       telugu: 'Shanivaram',
+      scriptForTts: 'శనివారం',
       english: 'Saturday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -595,6 +659,7 @@ class WordBank {
     Word(
       id: 'aadivaram',
       telugu: 'Aadivaram',
+      scriptForTts: 'ఆదివారం',
       english: 'Sunday',
       categoryId: 'days',
       partOfSpeech: 'noun',
@@ -605,6 +670,7 @@ class WordBank {
     Word(
       id: 'thala',
       telugu: 'Thala',
+      scriptForTts: 'తల',
       english: 'Head',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -613,6 +679,7 @@ class WordBank {
     Word(
       id: 'kallu',
       telugu: 'Kallu',
+      scriptForTts: 'కళ్ళు',
       english: 'Eyes',
       categoryId: 'body',
       partOfSpeech: 'noun (plural)',
@@ -621,6 +688,7 @@ class WordBank {
     Word(
       id: 'mukku',
       telugu: 'Mukku',
+      scriptForTts: 'ముక్కు',
       english: 'Nose',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -629,6 +697,7 @@ class WordBank {
     Word(
       id: 'noru',
       telugu: 'Noru',
+      scriptForTts: 'నోరు',
       english: 'Mouth',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -637,6 +706,7 @@ class WordBank {
     Word(
       id: 'chevulu',
       telugu: 'Chevulu',
+      scriptForTts: 'చెవులు',
       english: 'Ears',
       categoryId: 'body',
       partOfSpeech: 'noun (plural)',
@@ -645,6 +715,7 @@ class WordBank {
     Word(
       id: 'cheyi',
       telugu: 'Cheyi',
+      scriptForTts: 'చేయి',
       english: 'Hand',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -653,6 +724,7 @@ class WordBank {
     Word(
       id: 'kaalu',
       telugu: 'Kaalu',
+      scriptForTts: 'కాలు',
       english: 'Leg / foot',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -661,6 +733,7 @@ class WordBank {
     Word(
       id: 'velu',
       telugu: 'Velu',
+      scriptForTts: 'వేలు',
       english: 'Finger',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -669,6 +742,7 @@ class WordBank {
     Word(
       id: 'juttu',
       telugu: 'Juttu',
+      scriptForTts: 'జుట్టు',
       english: 'Hair',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -677,6 +751,7 @@ class WordBank {
     Word(
       id: 'pota',
       telugu: 'Pota',
+      scriptForTts: 'పొట్ట',
       english: 'Stomach',
       categoryId: 'body',
       partOfSpeech: 'noun',
@@ -687,6 +762,7 @@ class WordBank {
     Word(
       id: 'kukka',
       telugu: 'Kukka',
+      scriptForTts: 'కుక్క',
       english: 'Dog',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -695,6 +771,7 @@ class WordBank {
     Word(
       id: 'pilli',
       telugu: 'Pilli',
+      scriptForTts: 'పిల్లి',
       english: 'Cat',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -703,6 +780,7 @@ class WordBank {
     Word(
       id: 'aavu',
       telugu: 'Aavu',
+      scriptForTts: 'ఆవు',
       english: 'Cow',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -711,6 +789,7 @@ class WordBank {
     Word(
       id: 'puli',
       telugu: 'Puli',
+      scriptForTts: 'పులి',
       english: 'Tiger',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -719,6 +798,7 @@ class WordBank {
     Word(
       id: 'enugu',
       telugu: 'Enugu',
+      scriptForTts: 'ఏనుగు',
       english: 'Elephant',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -727,6 +807,7 @@ class WordBank {
     Word(
       id: 'koti',
       telugu: 'Koti',
+      scriptForTts: 'కోతి',
       english: 'Monkey',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -735,6 +816,7 @@ class WordBank {
     Word(
       id: 'pakshi',
       telugu: 'Pakshi',
+      scriptForTts: 'పక్షి',
       english: 'Bird',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -743,6 +825,7 @@ class WordBank {
     Word(
       id: 'chepa',
       telugu: 'Chepa',
+      scriptForTts: 'చేప',
       english: 'Fish',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -751,6 +834,7 @@ class WordBank {
     Word(
       id: 'nemali',
       telugu: 'Nemali',
+      scriptForTts: 'నెమలి',
       english: 'Peacock',
       categoryId: 'animals',
       partOfSpeech: 'noun',
@@ -760,6 +844,7 @@ class WordBank {
     Word(
       id: 'paamu',
       telugu: 'Paamu',
+      scriptForTts: 'పాము',
       english: 'Snake',
       categoryId: 'animals',
       partOfSpeech: 'noun',

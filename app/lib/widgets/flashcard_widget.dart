@@ -123,7 +123,7 @@ class _CardBack extends StatelessWidget {
             Text(word.english, style: TextStyle(color: Colors.grey.shade600, fontSize: 15)),
             const SizedBox(height: 12),
             IconButton.filled(
-              onPressed: () => ttsService.speak(word.telugu),
+              onPressed: () => ttsService.speak(word.ttsText),
               icon: const Icon(Icons.volume_up),
               style: IconButton.styleFrom(backgroundColor: AppColors.turmeric, foregroundColor: Colors.white),
             ),

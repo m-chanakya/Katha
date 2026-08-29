@@ -20,6 +20,12 @@ class Word {
   final String categoryId;
   final String partOfSpeech;
 
+  /// Telugu script for this word, used ONLY to drive the TTS engine so it
+  /// pronounces the word correctly — never shown in the UI. The script
+  /// module (Phase 6) is what will actually teach these characters; until
+  /// then this stays an internal implementation detail of pronunciation.
+  final String? scriptForTts;
+
   /// Optional note on how to say a tricky sound, e.g. retroflex vs dental.
   final String? pronunciationTip;
 
@@ -36,10 +42,15 @@ class Word {
     required this.english,
     required this.categoryId,
     required this.partOfSpeech,
+    this.scriptForTts,
     this.pronunciationTip,
     this.examples = const [],
     this.audioAsset,
   });
+
+  /// Best text to hand the TTS engine: Telugu script when we have it
+  /// (much better pronunciation), falling back to the transliteration.
+  String get ttsText => scriptForTts ?? telugu;
 }
 
 /// Metadata for a vocabulary category (a flashcard "deck").

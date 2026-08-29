@@ -33,11 +33,12 @@ Flutter project scaffolded for iOS/Android/Web, theming, folder structure.
 
 **Phase 1 — Vocabulary flashcard MVP** ✅ *(this push)*
 - Word/Category data model, transliteration-first.
-- Starter content: **95 words across 9 categories** (greetings, family,
+- Starter content: **85 words across 9 categories** (greetings, family,
   numbers, colors, food & drink, question words, days of the week, body
   parts, animals), each with an example sentence.
 - Flip-card flashcard UI, category deck screen, session-complete summary.
-- Pronunciation via device TTS (`te-IN` locale).
+- Pronunciation via device TTS (`te-IN` locale), fed the actual Telugu
+  script behind the scenes per word for accuracy — never shown in the UI.
 - Local progress: a 5-box Leitner-style spaced-repetition scheduler, daily
   streak, and XP — persisted on-device, no account needed.
 
@@ -46,10 +47,9 @@ Flutter project scaffolded for iOS/Android/Web, theming, folder structure.
   from this sandbox) and in real desktop/mobile browsers.
 - Onboarding flow (why transliteration, how flashcards work).
 - Settings: TTS voice/speed, review reminders.
-- Audio quality: evaluate feeding the *Telugu script* (not shown to the
-  user) to the TTS engine per word to get closer-to-native pronunciation
-  without teaching the script — a trick worth prototyping before investing
-  in recordings.
+- Audio quality: script-backed TTS landed in Phase 1; next step if it's
+  still not good enough is real native-speaker recordings for the words
+  people hit most.
 
 **Phase 3 — Gamification engine v1**
 - Move from "free-standing flashcard decks" to **structured lessons** (a

@@ -38,7 +38,7 @@ flutter test
 app/
   lib/
     models/word.dart        # Word + Category data model
-    data/word_bank.dart     # v1 vocabulary content (95 words, 9 categories)
+    data/word_bank.dart     # v1 vocabulary content (85 words, 9 categories)
     services/
       progress_service.dart # Leitner-box spaced repetition, streaks, XP
       tts_service.dart      # Pronunciation via device text-to-speech
