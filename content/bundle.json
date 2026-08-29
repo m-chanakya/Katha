@@ -1,0 +1,2714 @@
+{
+  "schemaVersion": 1,
+  "contentVersion": "2026.08.29-migration",
+  "lexemes": [
+    {
+      "id": "namaskaram",
+      "translit": "Namaskaram",
+      "script": "నమస్కారం",
+      "gloss": "Hello",
+      "pos": "interjection",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "ela_unnaru",
+      "translit": "Ela unnaru",
+      "script": "ఎలా ఉన్నారు",
+      "gloss": "How are you (formal)",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "bagunnanu",
+      "translit": "Bagunnanu",
+      "script": "బాగున్నాను",
+      "gloss": "I am fine",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "dhanyavaadamulu",
+      "translit": "Dhanyavaadamulu",
+      "script": "ధన్యవాదములు",
+      "gloss": "Thank you",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "sare",
+      "translit": "Sare",
+      "script": "సరే",
+      "gloss": "Okay",
+      "pos": "interjection",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kalustaam",
+      "translit": "Kalustaam",
+      "script": "కలుస్తాం",
+      "gloss": "(we'll) meet",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "shubhodayam",
+      "translit": "Shubhodayam",
+      "script": "శుభోదయం",
+      "gloss": "Good morning",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "shubharaatri",
+      "translit": "Shubharaatri",
+      "script": "శుభరాత్రి",
+      "gloss": "Good night",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "manninchandi",
+      "translit": "Manninchandi",
+      "script": "మన్నించండి",
+      "gloss": "Sorry / excuse me (formal)",
+      "pos": "phrase",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "dayachesi",
+      "translit": "Dayachesi",
+      "script": "దయచేసి",
+      "gloss": "Please",
+      "pos": "adverb",
+      "legacyCategoryId": "greetings",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "amma",
+      "translit": "Amma",
+      "script": "అమ్మ",
+      "gloss": "Mother",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "naanna",
+      "translit": "Naanna",
+      "script": "నాన్న",
+      "gloss": "Father",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "anna",
+      "translit": "Anna",
+      "script": "అన్న",
+      "gloss": "Elder brother",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "akka",
+      "translit": "Akka",
+      "script": "అక్క",
+      "gloss": "Elder sister",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "thammudu",
+      "translit": "Thammudu",
+      "script": "తమ్ముడు",
+      "gloss": "Younger brother",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "chelli",
+      "translit": "Chelli",
+      "script": "చెల్లి",
+      "gloss": "Younger sister",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "thatha",
+      "translit": "Thatha",
+      "script": "తాత",
+      "gloss": "Grandfather",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "nanamma",
+      "translit": "Nanamma",
+      "script": "నానమ్మ",
+      "gloss": "Grandmother",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "Regional terms vary — amamma/avva are also heard.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "bhaarya",
+      "translit": "Bhaarya",
+      "script": "భార్య",
+      "gloss": "Wife",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "bharta",
+      "translit": "Bharta",
+      "script": "భర్త",
+      "gloss": "Husband",
+      "pos": "noun",
+      "legacyCategoryId": "family",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "okati",
+      "translit": "Okati",
+      "script": "ఒకటి",
+      "gloss": "One",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "rendu",
+      "translit": "Rendu",
+      "script": "రెండు",
+      "gloss": "Two",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "moodu",
+      "translit": "Moodu",
+      "script": "మూడు",
+      "gloss": "Three",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "naalugu",
+      "translit": "Naalugu",
+      "script": "నాలుగు",
+      "gloss": "Four",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "aidu",
+      "translit": "Aidu",
+      "script": "ఐదు",
+      "gloss": "Five",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "aaru",
+      "translit": "Aaru",
+      "script": "ఆరు",
+      "gloss": "Six",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "edu",
+      "translit": "Edu",
+      "script": "ఏడు",
+      "gloss": "Seven",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "enimidi",
+      "translit": "Enimidi",
+      "script": "ఎనిమిది",
+      "gloss": "Eight",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "tommidi",
+      "translit": "Tommidi",
+      "script": "తొమ్మిది",
+      "gloss": "Nine",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "padi",
+      "translit": "Padi",
+      "script": "పది",
+      "gloss": "Ten",
+      "pos": "number",
+      "legacyCategoryId": "numbers",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "erra",
+      "translit": "Erra",
+      "script": "ఎర్ర",
+      "gloss": "Red",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pacha",
+      "translit": "Pacha",
+      "script": "పచ్చ",
+      "gloss": "Green",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "nalla",
+      "translit": "Nalla",
+      "script": "నల్ల",
+      "gloss": "Black",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "thella",
+      "translit": "Thella",
+      "script": "తెల్ల",
+      "gloss": "White",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pasupu",
+      "translit": "Pasupu",
+      "script": "పసుపు",
+      "gloss": "Yellow",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "Also literally means turmeric.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "neelam",
+      "translit": "Neelam",
+      "script": "నీలం",
+      "gloss": "Blue",
+      "pos": "adjective",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "godhuma_rangu",
+      "translit": "Godhuma rangu",
+      "script": "గోధుమ రంగు",
+      "gloss": "Brown",
+      "pos": "noun phrase",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "Literally 'wheat color'.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kamala_rangu",
+      "translit": "Kamala rangu",
+      "script": "కమలా రంగు",
+      "gloss": "Orange",
+      "pos": "noun phrase",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "gulabi_rangu",
+      "translit": "Gulabi rangu",
+      "script": "గులాబీ రంగు",
+      "gloss": "Pink",
+      "pos": "noun phrase",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "Literally 'rose color'.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "ooda_rangu",
+      "translit": "Ooda rangu",
+      "script": "ఊదా రంగు",
+      "gloss": "Purple",
+      "pos": "noun phrase",
+      "legacyCategoryId": "colors",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "annam",
+      "translit": "Annam",
+      "script": "అన్నం",
+      "gloss": "Rice / food",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "neellu",
+      "translit": "Neellu",
+      "script": "నీళ్ళు",
+      "gloss": "Water",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "paalu",
+      "translit": "Paalu",
+      "script": "పాలు",
+      "gloss": "Milk",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kaapi",
+      "translit": "Kaapi",
+      "script": "కాఫీ",
+      "gloss": "Coffee",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "tea",
+      "translit": "Tea",
+      "script": "టీ",
+      "gloss": "Tea",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "Borrowed word, said with a Telugu accent.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pandu",
+      "translit": "Pandu",
+      "script": "పండు",
+      "gloss": "Fruit",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "koora",
+      "translit": "Koora",
+      "script": "కూర",
+      "gloss": "Curry (vegetable dish)",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "rotte",
+      "translit": "Rotte",
+      "script": "రొట్టె",
+      "gloss": "Bread / roti",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "uppu",
+      "translit": "Uppu",
+      "script": "ఉప్పు",
+      "gloss": "Salt",
+      "pos": "noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "theepi",
+      "translit": "Theepi",
+      "script": "తీపి",
+      "gloss": "Sweet",
+      "pos": "adjective / noun",
+      "legacyCategoryId": "food",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "ekkada",
+      "translit": "Ekkada",
+      "script": "ఎక్కడ",
+      "gloss": "Where",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "eppudu",
+      "translit": "Eppudu",
+      "script": "ఎప్పుడు",
+      "gloss": "When",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "ela",
+      "translit": "Ela",
+      "script": "ఎలా",
+      "gloss": "How",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "enduku",
+      "translit": "Enduku",
+      "script": "ఎందుకు",
+      "gloss": "Why",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "evaru",
+      "translit": "Evaru",
+      "script": "ఎవరు",
+      "gloss": "Who",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "enti",
+      "translit": "Enti",
+      "script": "ఏంటి",
+      "gloss": "What",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "enta",
+      "translit": "Enta",
+      "script": "ఎంత",
+      "gloss": "How much",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "edi",
+      "translit": "Edi",
+      "script": "ఏది",
+      "gloss": "Which (one)",
+      "pos": "question word",
+      "legacyCategoryId": "questions",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "somavaram",
+      "translit": "Somavaram",
+      "script": "సోమవారం",
+      "gloss": "Monday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "mangalavaram",
+      "translit": "Mangalavaram",
+      "script": "మంగళవారం",
+      "gloss": "Tuesday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "budhavaram",
+      "translit": "Budhavaram",
+      "script": "బుధవారం",
+      "gloss": "Wednesday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "guruvaram",
+      "translit": "Guruvaram",
+      "script": "గురువారం",
+      "gloss": "Thursday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "sukravaram",
+      "translit": "Sukravaram",
+      "script": "శుక్రవారం",
+      "gloss": "Friday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "shanivaram",
+      "translit": "Shanivaram",
+      "script": "శనివారం",
+      "gloss": "Saturday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "aadivaram",
+      "translit": "Aadivaram",
+      "script": "ఆదివారం",
+      "gloss": "Sunday",
+      "pos": "noun",
+      "legacyCategoryId": "days",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "thala",
+      "translit": "Thala",
+      "script": "తల",
+      "gloss": "Head",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kallu",
+      "translit": "Kallu",
+      "script": "కళ్ళు",
+      "gloss": "Eyes",
+      "pos": "noun (plural)",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "mukku",
+      "translit": "Mukku",
+      "script": "ముక్కు",
+      "gloss": "Nose",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "noru",
+      "translit": "Noru",
+      "script": "నోరు",
+      "gloss": "Mouth",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "chevulu",
+      "translit": "Chevulu",
+      "script": "చెవులు",
+      "gloss": "Ears",
+      "pos": "noun (plural)",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "cheyi",
+      "translit": "Cheyi",
+      "script": "చేయి",
+      "gloss": "Hand",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kaalu",
+      "translit": "Kaalu",
+      "script": "కాలు",
+      "gloss": "Leg / foot",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "velu",
+      "translit": "Velu",
+      "script": "వేలు",
+      "gloss": "Finger",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "juttu",
+      "translit": "Juttu",
+      "script": "జుట్టు",
+      "gloss": "Hair",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pota",
+      "translit": "Pota",
+      "script": "పొట్ట",
+      "gloss": "Stomach",
+      "pos": "noun",
+      "legacyCategoryId": "body",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "kukka",
+      "translit": "Kukka",
+      "script": "కుక్క",
+      "gloss": "Dog",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pilli",
+      "translit": "Pilli",
+      "script": "పిల్లి",
+      "gloss": "Cat",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "aavu",
+      "translit": "Aavu",
+      "script": "ఆవు",
+      "gloss": "Cow",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "puli",
+      "translit": "Puli",
+      "script": "పులి",
+      "gloss": "Tiger",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "enugu",
+      "translit": "Enugu",
+      "script": "ఏనుగు",
+      "gloss": "Elephant",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "koti",
+      "translit": "Koti",
+      "script": "కోతి",
+      "gloss": "Monkey",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "pakshi",
+      "translit": "Pakshi",
+      "script": "పక్షి",
+      "gloss": "Bird",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "chepa",
+      "translit": "Chepa",
+      "script": "చేప",
+      "gloss": "Fish",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "nemali",
+      "translit": "Nemali",
+      "script": "నెమలి",
+      "gloss": "Peacock",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": "India's national bird.",
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    },
+    {
+      "id": "paamu",
+      "translit": "Paamu",
+      "script": "పాము",
+      "gloss": "Snake",
+      "pos": "noun",
+      "legacyCategoryId": "animals",
+      "register": null,
+      "formalityLevel": null,
+      "dialect": "standard",
+      "pronunciationTip": null,
+      "audioVariants": {
+        "default": "tts"
+      },
+      "frequencyRank": null,
+      "confusionLexemeIds": [],
+      "unaudited": true
+    }
+  ],
+  "forms": [],
+  "concepts": [],
+  "sentences": [
+    {
+      "id": "s_namaskaram_1",
+      "translit": "Namaskaram, meeru ela unnaru?",
+      "translation": "Hello, how are you?",
+      "lexemeIds": [
+        "namaskaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_ela_unnaru_2",
+      "translit": "Amma, meeru ela unnaru?",
+      "translation": "Mother, how are you?",
+      "lexemeIds": [
+        "ela_unnaru"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_bagunnanu_3",
+      "translit": "Nenu bagunnanu, dhanyavaadamulu.",
+      "translation": "I am fine, thank you.",
+      "lexemeIds": [
+        "bagunnanu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_dhanyavaadamulu_4",
+      "translit": "Sahayam chesinanduku dhanyavaadamulu.",
+      "translation": "Thank you for helping.",
+      "lexemeIds": [
+        "dhanyavaadamulu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_sare_5",
+      "translit": "Sare, malli kalustaam.",
+      "translation": "Okay, we'll meet again.",
+      "lexemeIds": [
+        "sare"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kalustaam_6",
+      "translit": "Repu kalustaam.",
+      "translation": "We'll meet tomorrow.",
+      "lexemeIds": [
+        "kalustaam"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_shubhodayam_7",
+      "translit": "Andariki shubhodayam!",
+      "translation": "Good morning everyone!",
+      "lexemeIds": [
+        "shubhodayam"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_shubharaatri_8",
+      "translit": "Amma, shubharaatri.",
+      "translation": "Good night, mother.",
+      "lexemeIds": [
+        "shubharaatri"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_manninchandi_9",
+      "translit": "Manninchandi, alasyam ayyindi.",
+      "translation": "Sorry, I'm late.",
+      "lexemeIds": [
+        "manninchandi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_dayachesi_10",
+      "translit": "Dayachesi, neellu ivvandi.",
+      "translation": "Please give me water.",
+      "lexemeIds": [
+        "dayachesi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_amma_11",
+      "translit": "Naa amma peru Lakshmi.",
+      "translation": "My mother's name is Lakshmi.",
+      "lexemeIds": [
+        "amma"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_naanna_12",
+      "translit": "Naanna office ki vellaru.",
+      "translation": "Father went to the office.",
+      "lexemeIds": [
+        "naanna"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_anna_13",
+      "translit": "Naa anna peru Ravi.",
+      "translation": "My elder brother's name is Ravi.",
+      "lexemeIds": [
+        "anna"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_akka_14",
+      "translit": "Naa akka doctor.",
+      "translation": "My elder sister is a doctor.",
+      "lexemeIds": [
+        "akka"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_thammudu_15",
+      "translit": "Naa thammudu chinnavaadu.",
+      "translation": "My younger brother is little.",
+      "lexemeIds": [
+        "thammudu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_chelli_16",
+      "translit": "Naa chelli school ki veltundi.",
+      "translation": "My younger sister goes to school.",
+      "lexemeIds": [
+        "chelli"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_thatha_17",
+      "translit": "Thatha katha cheputharu.",
+      "translation": "Grandfather tells a story.",
+      "lexemeIds": [
+        "thatha"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_nanamma_18",
+      "translit": "Nanamma vanta baaga chestaru.",
+      "translation": "Grandmother cooks well.",
+      "lexemeIds": [
+        "nanamma"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_bhaarya_19",
+      "translit": "Atanu bhaarya teacher.",
+      "translation": "His wife is a teacher.",
+      "lexemeIds": [
+        "bhaarya"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_bharta_20",
+      "translit": "Aame bharta doctor.",
+      "translation": "Her husband is a doctor.",
+      "lexemeIds": [
+        "bharta"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_okati_21",
+      "translit": "Naaku okati kaavali.",
+      "translation": "I need one.",
+      "lexemeIds": [
+        "okati"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_rendu_22",
+      "translit": "Rendu pandlu ivvu.",
+      "translation": "Give me two fruits.",
+      "lexemeIds": [
+        "rendu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_moodu_23",
+      "translit": "Moodu gantalu ayyindi.",
+      "translation": "It has been three hours.",
+      "lexemeIds": [
+        "moodu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_naalugu_24",
+      "translit": "Intlo naalugu mandi unnaru.",
+      "translation": "There are four people at home.",
+      "lexemeIds": [
+        "naalugu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_aidu_25",
+      "translit": "Aidu rupaayalu ivvu.",
+      "translation": "Give me five rupees.",
+      "lexemeIds": [
+        "aidu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_edu_26",
+      "translit": "Edu rojulu pattindi.",
+      "translation": "It took seven days.",
+      "lexemeIds": [
+        "edu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_enimidi_27",
+      "translit": "Enimidi mandi vaccharu.",
+      "translation": "Eight people came.",
+      "lexemeIds": [
+        "enimidi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_padi_28",
+      "translit": "Padi nimishalu wait cheyandi.",
+      "translation": "Wait ten minutes.",
+      "lexemeIds": [
+        "padi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_erra_29",
+      "translit": "Erra rangu naaku ishtam.",
+      "translation": "I like the color red.",
+      "lexemeIds": [
+        "erra"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pacha_30",
+      "translit": "Aakulu pacha rangu lo untayi.",
+      "translation": "Leaves are green in color.",
+      "lexemeIds": [
+        "pacha"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_nalla_31",
+      "translit": "Naa pilli nalla rangu.",
+      "translation": "My cat is black.",
+      "lexemeIds": [
+        "nalla"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_thella_32",
+      "translit": "Thella cheera baagundi.",
+      "translation": "The white saree is nice.",
+      "lexemeIds": [
+        "thella"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pasupu_33",
+      "translit": "Pasupu rangu pandu tinu.",
+      "translation": "Eat the yellow fruit.",
+      "lexemeIds": [
+        "pasupu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_neelam_34",
+      "translit": "Aakasam neelam rangu.",
+      "translation": "The sky is blue.",
+      "lexemeIds": [
+        "neelam"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_godhuma_rangu_35",
+      "translit": "Naa kallu godhuma rangu.",
+      "translation": "My eyes are brown.",
+      "lexemeIds": [
+        "godhuma_rangu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kamala_rangu_36",
+      "translit": "Kamala rangu pandu tinnanu.",
+      "translation": "I ate the orange fruit.",
+      "lexemeIds": [
+        "kamala_rangu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_gulabi_rangu_37",
+      "translit": "Gulabi rangu poolu baaguntayi.",
+      "translation": "Pink flowers are nice.",
+      "lexemeIds": [
+        "gulabi_rangu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_ooda_rangu_38",
+      "translit": "Aame ooda rangu cheera vesukundi.",
+      "translation": "She wore a purple saree.",
+      "lexemeIds": [
+        "ooda_rangu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_annam_39",
+      "translit": "Annam tinnara?",
+      "translation": "Did you eat (food)?",
+      "lexemeIds": [
+        "annam"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_neellu_40",
+      "translit": "Neellu ivvandi.",
+      "translation": "Please give me water.",
+      "lexemeIds": [
+        "neellu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_paalu_41",
+      "translit": "Pillalu paalu thaagutaru.",
+      "translation": "Children drink milk.",
+      "lexemeIds": [
+        "paalu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kaapi_42",
+      "translit": "Udayam kaapi kaavali.",
+      "translation": "I need coffee in the morning.",
+      "lexemeIds": [
+        "kaapi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_tea_43",
+      "translit": "Tea thaagutara?",
+      "translation": "Will you drink tea?",
+      "lexemeIds": [
+        "tea"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pandu_44",
+      "translit": "Ee pandu theepiga undi.",
+      "translation": "This fruit is sweet.",
+      "lexemeIds": [
+        "pandu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_koora_45",
+      "translit": "Koora baagundi.",
+      "translation": "The curry is tasty.",
+      "lexemeIds": [
+        "koora"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_rotte_46",
+      "translit": "Rotte tho koora thinu.",
+      "translation": "Eat the curry with roti.",
+      "lexemeIds": [
+        "rotte"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_uppu_47",
+      "translit": "Annam lo uppu ekkuva undi.",
+      "translation": "There is too much salt in the food.",
+      "lexemeIds": [
+        "uppu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_theepi_48",
+      "translit": "Naaku theepi ante ishtam.",
+      "translation": "I like sweets.",
+      "lexemeIds": [
+        "theepi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_ekkada_49",
+      "translit": "Meeru ekkada unnaru?",
+      "translation": "Where are you?",
+      "lexemeIds": [
+        "ekkada"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_eppudu_50",
+      "translit": "Meeru eppudu vastaru?",
+      "translation": "When will you come?",
+      "lexemeIds": [
+        "eppudu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_ela_51",
+      "translit": "Idi ela chestaru?",
+      "translation": "How do you do this?",
+      "lexemeIds": [
+        "ela"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_enduku_52",
+      "translit": "Meeru enduku alasyam chesaru?",
+      "translation": "Why are you late?",
+      "lexemeIds": [
+        "enduku"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_evaru_53",
+      "translit": "Meeru evaru?",
+      "translation": "Who are you?",
+      "lexemeIds": [
+        "evaru"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_enti_54",
+      "translit": "Mee peru enti?",
+      "translation": "What is your name?",
+      "lexemeIds": [
+        "enti"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_enta_55",
+      "translit": "Idi enta?",
+      "translation": "How much is this?",
+      "lexemeIds": [
+        "enta"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_edi_56",
+      "translit": "Neeku edi kaavali?",
+      "translation": "Which one do you want?",
+      "lexemeIds": [
+        "edi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_somavaram_57",
+      "translit": "Somavaram office ki veltanu.",
+      "translation": "I go to office on Monday.",
+      "lexemeIds": [
+        "somavaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_mangalavaram_58",
+      "translit": "Mangalavaram selavu.",
+      "translation": "Tuesday is a holiday.",
+      "lexemeIds": [
+        "mangalavaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_budhavaram_59",
+      "translit": "Budhavaram class undi.",
+      "translation": "There is class on Wednesday.",
+      "lexemeIds": [
+        "budhavaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_guruvaram_60",
+      "translit": "Guruvaram meeting undi.",
+      "translation": "There is a meeting on Thursday.",
+      "lexemeIds": [
+        "guruvaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_sukravaram_61",
+      "translit": "Sukravaram cinemaki veltamu.",
+      "translation": "We'll go to a movie on Friday.",
+      "lexemeIds": [
+        "sukravaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_shanivaram_62",
+      "translit": "Shanivaram pani ledu.",
+      "translation": "No work on Saturday.",
+      "lexemeIds": [
+        "shanivaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_aadivaram_63",
+      "translit": "Aadivaram andaru intlo untaru.",
+      "translation": "Everyone is at home on Sunday.",
+      "lexemeIds": [
+        "aadivaram"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_thala_64",
+      "translit": "Naaku thala noppiga undi.",
+      "translation": "I have a headache.",
+      "lexemeIds": [
+        "thala"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kallu_65",
+      "translit": "Naa kallu noppiga unnayi.",
+      "translation": "My eyes hurt.",
+      "lexemeIds": [
+        "kallu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_mukku_66",
+      "translit": "Naa mukku noppiga undi.",
+      "translation": "My nose hurts.",
+      "lexemeIds": [
+        "mukku"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_noru_67",
+      "translit": "Tinnaka noru kadagandi.",
+      "translation": "Wash your mouth after eating.",
+      "lexemeIds": [
+        "noru"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_chevulu_68",
+      "translit": "Naa chevulu vinapadatledu.",
+      "translation": "My ears aren't hearing.",
+      "lexemeIds": [
+        "chevulu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_cheyi_69",
+      "translit": "Naa cheyi noppiga undi.",
+      "translation": "My hand hurts.",
+      "lexemeIds": [
+        "cheyi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kaalu_70",
+      "translit": "Naa kaalu noppiga undi.",
+      "translation": "My leg hurts.",
+      "lexemeIds": [
+        "kaalu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_velu_71",
+      "translit": "Naa velu kosindi.",
+      "translation": "My finger got cut.",
+      "lexemeIds": [
+        "velu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_juttu_72",
+      "translit": "Naa juttu poduguga undi.",
+      "translation": "My hair is long.",
+      "lexemeIds": [
+        "juttu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pota_73",
+      "translit": "Naa pota noppiga undi.",
+      "translation": "My stomach hurts.",
+      "lexemeIds": [
+        "pota"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_kukka_74",
+      "translit": "Aa kukka peddadi.",
+      "translation": "That dog is big.",
+      "lexemeIds": [
+        "kukka"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pilli_75",
+      "translit": "Naa pilli aadutundi.",
+      "translation": "My cat is playing.",
+      "lexemeIds": [
+        "pilli"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_aavu_76",
+      "translit": "Aavu paalu istundi.",
+      "translation": "The cow gives milk.",
+      "lexemeIds": [
+        "aavu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_puli_77",
+      "translit": "Adavi lo puli undi.",
+      "translation": "There is a tiger in the forest.",
+      "lexemeIds": [
+        "puli"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_enugu_78",
+      "translit": "Enugu peddaga untundi.",
+      "translation": "The elephant is big.",
+      "lexemeIds": [
+        "enugu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_koti_79",
+      "translit": "Koti chettu ekkindi.",
+      "translation": "The monkey climbed the tree.",
+      "lexemeIds": [
+        "koti"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_pakshi_80",
+      "translit": "Aa pakshi baaga paadutundi.",
+      "translation": "That bird sings well.",
+      "lexemeIds": [
+        "pakshi"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_chepa_81",
+      "translit": "Chepa neellalo untundi.",
+      "translation": "The fish is in the water.",
+      "lexemeIds": [
+        "chepa"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_nemali_82",
+      "translit": "Nemali chaala andanga untundi.",
+      "translation": "The peacock is very beautiful.",
+      "lexemeIds": [
+        "nemali"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    },
+    {
+      "id": "s_paamu_83",
+      "translit": "Akkada paamu undi, jaagratha!",
+      "translation": "There is a snake there, be careful!",
+      "lexemeIds": [
+        "paamu"
+      ],
+      "characterId": null,
+      "register": null,
+      "scenarioId": null,
+      "unaudited": true
+    }
+  ],
+  "scenarios": [],
+  "units": [
+    {
+      "id": "legacy_greetings",
+      "title": "Greetings",
+      "emoji": "🙏",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "namaskaram",
+        "ela_unnaru",
+        "bagunnanu",
+        "dhanyavaadamulu",
+        "sare",
+        "kalustaam",
+        "shubhodayam",
+        "shubharaatri",
+        "manninchandi",
+        "dayachesi"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_family",
+      "title": "Family",
+      "emoji": "👨‍👩‍👧‍👦",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "amma",
+        "naanna",
+        "anna",
+        "akka",
+        "thammudu",
+        "chelli",
+        "thatha",
+        "nanamma",
+        "bhaarya",
+        "bharta"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_numbers",
+      "title": "Numbers",
+      "emoji": "🔢",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "okati",
+        "rendu",
+        "moodu",
+        "naalugu",
+        "aidu",
+        "aaru",
+        "edu",
+        "enimidi",
+        "tommidi",
+        "padi"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_colors",
+      "title": "Colors",
+      "emoji": "🎨",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "erra",
+        "pacha",
+        "nalla",
+        "thella",
+        "pasupu",
+        "neelam",
+        "godhuma_rangu",
+        "kamala_rangu",
+        "gulabi_rangu",
+        "ooda_rangu"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_food",
+      "title": "Food & Drink",
+      "emoji": "🍛",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "annam",
+        "neellu",
+        "paalu",
+        "kaapi",
+        "tea",
+        "pandu",
+        "koora",
+        "rotte",
+        "uppu",
+        "theepi"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_questions",
+      "title": "Question Words",
+      "emoji": "❓",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "ekkada",
+        "eppudu",
+        "ela",
+        "enduku",
+        "evaru",
+        "enti",
+        "enta",
+        "edi"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_days",
+      "title": "Days of the Week",
+      "emoji": "📅",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "somavaram",
+        "mangalavaram",
+        "budhavaram",
+        "guruvaram",
+        "sukravaram",
+        "shanivaram",
+        "aadivaram"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_body",
+      "title": "Body Parts",
+      "emoji": "🧍",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "thala",
+        "kallu",
+        "mukku",
+        "noru",
+        "chevulu",
+        "cheyi",
+        "kaalu",
+        "velu",
+        "juttu",
+        "pota"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    },
+    {
+      "id": "legacy_animals",
+      "title": "Animals",
+      "emoji": "🐾",
+      "sectionId": "legacy",
+      "lexemeIds": [
+        "kukka",
+        "pilli",
+        "aavu",
+        "puli",
+        "enugu",
+        "koti",
+        "pakshi",
+        "chepa",
+        "nemali",
+        "paamu"
+      ],
+      "conceptIds": [],
+      "prerequisiteUnitIds": []
+    }
+  ]
+}
