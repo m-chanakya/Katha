@@ -29,9 +29,13 @@ become*.
 
 Exit criterion: *"Ship a new word to a running app without a build."*
 Status: met structurally (content is fetched from a URL at runtime,
-not bundled at compile time) — not yet exercised for real because
-nothing has been deployed/pushed yet as of this session (see
-"Known gap" below).
+not bundled at compile time). Verified locally as of 2026-08-29
+(`flutter test` 11/11 passing twice in a row, `flutter analyze` clean,
+`flutter build web --base-href "/Katha/"` succeeds) -- see "Device
+shell: running Flutter yourself" below for how. Still not confirmed via
+a real CI run, since as of the last update to this file the commits
+verifying this hadn't been pushed yet -- check the Actions tab before
+trusting that part.
 
 ### Done this session (2026-08-29)
 
@@ -80,6 +84,38 @@ nothing has been deployed/pushed yet as of this session (see
   test loop** — after any future push, a fresh clickable build is at
   `https://m-chanakya.github.io/Katha/`.
 
+### Follow-up fixes, same day (2026-08-29, later)
+
+Three widget-test bugs found and fixed, in order -- kept here because
+the debugging path is more instructive than the diffs:
+
+1. `pumpAndSettle` hung forever: an indeterminate `CircularProgressIndicator`
+   (shown while `_AppRoot` loads) reschedules a frame forever, so
+   "settled" never becomes true regardless of whether the underlying
+   Future resolves. Fixed by polling for a specific expected widget
+   instead of waiting for "no more frames."
+2. That polling fix was itself flaky: a *fixed* pump count doesn't
+   account for real timing variance. Fixed by polling with a generous
+   upper bound instead of a guessed constant.
+3. Still failed, but only ever on the *second* `testWidgets` in the
+   file, never the first, never in isolation. Root cause, found only
+   after installing Flutter in the device shell and reproducing it
+   directly (see "Device shell" section below): `ContentService.load()`'s
+   asset fallback calls `rootBundle.loadString`, a genuinely real
+   (non-fake) file read, and real I/O like that does not reliably
+   complete under `TestWidgetsFlutterBinding`'s pumping -- confirmed by
+   watching a bare `FutureBuilder` around it hang on the second test in
+   a file while resolving instantly on the first. Fixed by adding
+   `ContentService.debugOverrideBundle`, a test hook that returns a
+   preset bundle synchronously, so widget tests never touch real I/O at
+   all. This is the actual fix; the first two were real improvements
+   but neither was sufficient alone.
+
+Lesson for next time: when a test failure doesn't match the obvious
+story (here: "just needs more time to load"), suspect state or I/O
+behavior specific to the test *harness*, not just the app code, and
+verify by running it rather than iterating on stack traces alone.
+
 ### Content debt (intentional, tracked as CI warnings not failures)
 
 1. **No register/formality/dialect audit yet.** All 85 migrated lexemes
@@ -102,46 +138,80 @@ nothing has been deployed/pushed yet as of this session (see
    enforcing a rule, because the rule doesn't exist yet. Lock the
    scheme, then flip that check to an error.
 
-## Known gap: this device link has no network access
+## Device shell: running Flutter yourself (do this, don't guess)
 
-Discovered this session: when a Claude session is linked to this
-Mac via the desktop app's device bridge, the `device_bash` shell runs
-inside a sandboxed Linux VM with **no network egress** (blocked by
-allowlist) even though it can read/write the real files under
-`~/Work/Katha`. Practically:
+The `device_bash` shell (when a session is linked to Achaarya's Mac via
+the desktop app) runs inside an isolated Linux VM, separate from the
+real macOS Flutter install -- it can read/write the real files under
+`~/Work/Katha` (mounted), but `flutter`/`dart` are not on its PATH and
+never will be just because they're installed on the Mac itself. **Do
+not assume you can't self-verify Flutter changes** -- you can, with a
+one-time-per-session setup:
 
-- **The agent cannot run `flutter pub get`/`analyze`/`test`/`build`**
-  from that shell — no access to pub.dev. All Dart/Flutter changes this
-  session were written by hand and validated by *reading*, not by
-  running the toolchain. **Run `flutter pub get && flutter analyze &&
-  flutter test` yourself before trusting a session's Flutter changes**,
-  especially after a session that (like this one) couldn't self-verify.
-- **The agent cannot `git push`** from that shell either (github.com is
-  blocked too). Changes land as real edits + a local commit; **you
-  need to run `git push` yourself** to get them onto GitHub and trigger
-  CI. This is also why the `fsrs` pub package isn't wired up yet
-  (below) — no way to `pub get` it and read its real API this session.
-- If a future session has the same device linked and hits the same
-  wall, this isn't a regression to debug — it's the sandbox. The
+```sh
+# In the VM's own $HOME (NOT under ~/mnt/Katha -- that's the mounted
+# project folder; keep tooling out of it):
+cd ~ && git clone --branch stable --depth 1 https://github.com/flutter/flutter.git
+export PATH="$HOME/flutter/bin:$PATH"
+flutter --version        # bootstraps the Dart SDK, ~1 min, one-time
+
+cd ~/mnt/Katha/app
+flutter pub get
+flutter analyze
+flutter test
+flutter build web --base-href "/Katha/"   # optional but catches web-only issues
+```
+
+This actually found and fixed two real bugs in one session (2026-08-29)
+that three rounds of guessing from pasted terminal output had not.
+**Prefer running it yourself over reasoning about what a stack trace
+probably means** -- reproduce, bisect, fix, verify, in that order.
+
+Notes:
+- **Don't assume network is blocked.** Earlier the same day, this VM's
+  network genuinely was blocked by an egress allowlist (github.com,
+  pub.dev, storage.googleapis.com all refused). Later in the same
+  session, with no action taken to fix it, the exact same hosts were
+  reachable and the clone/`pub get` above worked fine. Whatever gates
+  this is not under agent control and not worth debugging -- just try
+  `curl -sI https://github.com` at the start of a session; if it's
+  blocked, fall back to careful hand-written changes and ask the user
+  to verify; if it's open, do the setup above and self-verify before
+  claiming anything works.
+- **`git push` needs credentials this VM doesn't have, independent of
+  network reachability.** Even when HTTPS to github.com works fine,
+  `git push` fails with "could not read Username" -- there's no stored
+  credential helper or token here. Pushing is the user's action from
+  their own terminal; committing locally (with `git -c user.name=...
+  -c user.email=...` if this VM has no git identity configured, which
+  is normal -- don't set it globally) is as far as an agent session
+  goes on this path.
+- **The Flutter clone lives in the VM's own home, not the mounted
+  folder, so don't expect it to survive to a brand-new session** --
+  each session's device-linked VM may be freshly provisioned. Check
+  `which flutter` (after exporting PATH) before assuming you need to
+  re-clone; if it's gone, the recipe above takes about a minute.
+- If a future session finds network genuinely and durably blocked, the
   cloud-container side of a session (no device linked) *does* have
-  normal network access, so an alternative for a push-heavy session is
-  giving that session GitHub push credentials directly instead of
-  going through the device bridge — worth deciding if this friction
-  gets annoying.
+  normal network access but no access to this repo's real files --
+  giving that kind of session GitHub push credentials directly is the
+  alternative worth considering if the device-bridge friction here
+  becomes a recurring problem.
 
 ## Next steps (in rough order)
 
-1. **You**: `cd app && flutter pub get && flutter analyze && flutter
-   test`, then `flutter run -d chrome` to sanity-check the session flow
-   by hand, then `git push`.
-2. Once pushed, check the Actions tab — first real run of `ci.yml`.
-   Fix anything `flutter analyze`/`test` catches that this session
-   couldn't see.
-3. Swap the FSRS-lite scheduler for the real `fsrs` pub package now that
-   `pub get` can actually resolve and you (or a session with network)
-   can read its API — the (lexeme × dimension) shape in
-   `progress_service.dart` was deliberately built to make this a
-   localized swap, not a data-model change.
+1. **You**: `git push` (this VM has network but no push credentials --
+   see "Device shell" above). Then check the Actions tab for the first
+   real `ci.yml` run against these changes.
+2. `flutter run -d chrome` for a real click-through sanity check by
+   hand -- automated tests passing doesn't mean the session flow
+   *feels* right.
+3. Swap the FSRS-lite scheduler for the real `fsrs` pub package -- a
+   session with the device-shell Flutter setup above can now actually
+   `flutter pub add fsrs` and read its real API instead of guessing.
+   The (lexeme × dimension) shape in `progress_service.dart` was
+   deliberately built to make this a localized swap, not a data-model
+   change.
 4. Start the native-speaker register audit (content debt #1) — even a
    pass over `content/bundle.json` in a spreadsheet unblocks flipping
    that gate from warning to error.
@@ -152,9 +222,9 @@ allowlist) even though it can read/write the real files under
    match — that's the 3, but STRATEGY's exact 4th generator target is
    worth rechecking against §6 before Phase C).
 6. Don't start Phase B (Creator Studio) or Phase C (Section content)
-   content authoring until the register audit and a first real
-   `flutter test` pass are done — that's the actual Phase A exit gate,
-   not just "code exists."
+   content authoring until the register audit is done and CI has
+   actually gone green on a real push -- that's the actual Phase A
+   exit gate, not just "tests pass locally."
 
 ## Testing loop
 
