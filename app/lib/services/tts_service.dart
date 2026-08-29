@@ -1,20 +1,18 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 
-import '../models/word.dart';
-
 /// Wraps the platform text-to-speech engine for pronunciation playback.
 ///
-/// This is the v1 audio source. [Word.audioAsset] is reserved for
-/// native-speaker recordings — when a word has one set, the UI should
-/// play that file instead of calling [speakWord], so recordings can be
-/// swapped in per-word later with no change to this service's API.
+/// This is the fallback audio source. [Lexeme.audioVariants] is reserved
+/// for native-speaker recordings — when a lexeme has one set, the UI
+/// should play that file instead of calling [speak], so recordings can
+/// be swapped in per-lexeme later with no change to this service's API.
 ///
 /// Telugu voice availability is inconsistent across devices/browsers —
 /// many desktop browsers ship no Telugu voice at all, and feeding Telugu
 /// script to a voice that doesn't support it typically produces silence
-/// rather than a mispronunciation. So this only uses [Word.scriptForTts]
-/// when a Telugu voice is actually detected; otherwise it falls back to
+/// rather than a mispronunciation. So this only uses a lexeme's Telugu
+/// script when a Telugu voice is actually detected; otherwise it falls back to
 /// the Latin transliteration, which any default voice can at least
 /// attempt to sound out.
 class TtsService {
@@ -43,14 +41,15 @@ class TtsService {
     }
   }
 
-  /// Speaks [word], preferring native Telugu script when a Telugu voice is
-  /// available. Returns false only if the engine actually threw — the
-  /// success value some platforms return from `speak()` isn't consistent
-  /// enough across web/iOS/Android to gate the UI on, so a thrown
-  /// exception is the only signal treated as a real failure.
-  Future<bool> speakWord(Word word) async {
+  /// Speaks a lexeme, preferring [script] when a Telugu voice is
+  /// available and falling back to [translit] otherwise. Returns false
+  /// only if the engine actually threw — the success value some
+  /// platforms return from `speak()` isn't consistent enough across
+  /// web/iOS/Android to gate the UI on, so a thrown exception is the
+  /// only signal treated as a real failure.
+  Future<bool> speak({required String? script, required String translit}) async {
     await _ensureInit();
-    final text = _teluguVoiceAvailable ? word.ttsText : word.telugu;
+    final text = (_teluguVoiceAvailable && script != null) ? script : translit;
     try {
       await _tts.stop();
       await _tts.speak(text);

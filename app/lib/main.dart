@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import 'models/content.dart';
 import 'screens/home_screen.dart';
+import 'services/content_service.dart';
 import 'services/progress_service.dart';
 import 'services/tts_service.dart';
 import 'theme/app_theme.dart';
@@ -30,19 +32,41 @@ class KathaApp extends StatelessWidget {
   }
 }
 
-/// Waits for saved progress to load before showing the home screen, so
-/// the deck cards never flash "0 due" before real data arrives.
+/// Loads the content bundle (network CDN with bundled-asset fallback --
+/// see ContentService) and waits for saved progress, so the unit list
+/// never flashes empty/zero before real data arrives.
 class _AppRoot extends StatelessWidget {
   const _AppRoot();
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<ProgressService>(
-      builder: (context, progress, _) {
-        if (!progress.isLoaded) {
+    return FutureBuilder<ContentBundle>(
+      future: ContentService().load(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState != ConnectionState.done) {
           return const Scaffold(body: Center(child: CircularProgressIndicator()));
         }
-        return const HomeScreen();
+        if (snapshot.hasError || !snapshot.hasData) {
+          return Scaffold(
+            body: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Text('Could not load content: ${snapshot.error}'),
+              ),
+            ),
+          );
+        }
+        return Provider<ContentBundle>.value(
+          value: snapshot.data!,
+          child: Consumer<ProgressService>(
+            builder: (context, progress, _) {
+              if (!progress.isLoaded) {
+                return const Scaffold(body: Center(child: CircularProgressIndicator()));
+              }
+              return const HomeScreen();
+            },
+          ),
+        );
       },
     );
   }

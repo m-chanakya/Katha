@@ -1,0 +1,71 @@
+name: CI
+
+# Continuous test + deploy loop (see CLAUDE.md "Testing loop"):
+# every push runs the quality gates and test suite; a push to a
+# tracked branch also builds the web app and publishes it to GitHub
+# Pages at a stable URL, alongside the content bundle it fetches at
+# runtime (see lib/services/content_service.dart).
+on:
+  push:
+    branches: [main, master, 'claude/**']
+  pull_request:
+    branches: [main, master]
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Validate content (quality gates)
+        run: python3 scripts/validate_content.py content/bundle.json
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: flutter pub get
+        working-directory: app
+        run: flutter pub get
+
+      - name: flutter analyze
+        working-directory: app
+        run: flutter analyze
+
+      - name: flutter test
+        working-directory: app
+        run: flutter test
+
+  deploy:
+    needs: test
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: flutter pub get
+        working-directory: app
+        run: flutter pub get
+
+      - name: flutter build web
+        working-directory: app
+        run: flutter build web --base-href "/Katha/"
+
+      - name: Copy content bundle into the deployed site
+        run: |
+          mkdir -p app/build/web/content
+          cp content/bundle.json app/build/web/content/bundle.json
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: app/build/web

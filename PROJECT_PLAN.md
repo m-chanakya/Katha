@@ -1,3 +1,5 @@
+> **Superseded by `STRATEGY.md`** (Katha claude.ai Project) as of Phase A, 2026-08-29. Kept for history -- see `CLAUDE.md` for current status. Phase numbering below no longer matches the live roadmap.
+
 # Katha — Project Plan
 
 Katha (కథ, "story") is a Telugu learning app for iOS and Web, built to grow

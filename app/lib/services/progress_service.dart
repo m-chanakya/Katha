@@ -1,50 +1,104 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../models/word.dart';
+/// The three review dimensions STRATEGY.md section 7 schedules
+/// independently per lexeme: "schedule per (item x dimension), not per
+/// item." Recognition and listening generators exist (Phase A);
+/// production stays modelled but unused until coach mode ships in
+/// Phase D (STRATEGY sec 1a.2, sec 8) -- nothing writes to it yet.
+enum Dimension { recognition, listening, production }
 
-/// A learner's Leitner-box state for one word.
+enum Rating { again, hard, good, easy }
+
+/// Spaced-repetition state for one (lexeme, dimension) pair.
 ///
-/// Box 0 = just seen / got it wrong. Box 4 = "known", reviewed at the
-/// longest interval. Getting a card right moves it up a box; getting it
-/// wrong drops it back to box 0.
-class WordProgress {
-  final String wordId;
-  int box;
+/// NOTE: this is a deliberately simple SM-2-style scheduler, not the
+/// real FSRS algorithm STRATEGY sec 7 specifies. Wiring up the actual
+/// `fsrs` Dart package (https://pub.dev/packages/fsrs) needs `flutter
+/// pub get` to inspect its real API, which this session's sandbox can't
+/// run (no network from the device shell -- see CLAUDE.md). The
+/// (lexeme x dimension) shape below is deliberately the shape FSRS
+/// wants, so swapping the update function for a real FSRS call later is
+/// a localized change, not a data-model rewrite.
+class CardState {
+  double stability; // roughly "days until ~90% recall"
+  double difficulty; // 1 (easy) .. 10 (hard)
   DateTime dueAt;
-  int timesReviewed;
+  int reps;
+  int lapses;
+  DateTime? lastReviewedAt;
 
-  WordProgress({
-    required this.wordId,
-    this.box = 0,
+  CardState({
+    this.stability = 1.0,
+    this.difficulty = 5.0,
     required this.dueAt,
-    this.timesReviewed = 0,
+    this.reps = 0,
+    this.lapses = 0,
+    this.lastReviewedAt,
   });
 
+  bool get isDue => !dueAt.isAfter(DateTime.now());
+  bool get isNew => reps == 0;
+
   Map<String, dynamic> toJson() => {
-        'wordId': wordId,
-        'box': box,
+        'stability': stability,
+        'difficulty': difficulty,
         'dueAt': dueAt.toIso8601String(),
-        'timesReviewed': timesReviewed,
+        'reps': reps,
+        'lapses': lapses,
+        'lastReviewedAt': lastReviewedAt?.toIso8601String(),
       };
 
-  factory WordProgress.fromJson(Map<String, dynamic> json) => WordProgress(
-        wordId: json['wordId'] as String,
-        box: json['box'] as int,
-        dueAt: DateTime.parse(json['dueAt'] as String),
-        timesReviewed: json['timesReviewed'] as int,
+  factory CardState.fromJson(Map<String, dynamic> j) => CardState(
+        stability: (j['stability'] as num).toDouble(),
+        difficulty: (j['difficulty'] as num).toDouble(),
+        dueAt: DateTime.parse(j['dueAt'] as String),
+        reps: j['reps'] as int,
+        lapses: j['lapses'] as int,
+        lastReviewedAt: j['lastReviewedAt'] != null ? DateTime.parse(j['lastReviewedAt'] as String) : null,
       );
+
+  /// Applies one review outcome in place, producing the next interval.
+  /// See class doc: SM-2-style placeholder for real FSRS.
+  void applyReview(Rating rating) {
+    final wasNew = isNew; // capture before bumping reps below
+    reps += 1;
+    lastReviewedAt = DateTime.now();
+
+    if (rating == Rating.again) {
+      lapses += 1;
+      stability = max(1.0, stability * 0.5);
+      difficulty = min(10.0, difficulty + 1.2);
+      dueAt = DateTime.now().add(const Duration(minutes: 10));
+      return;
+    }
+
+    final easeByRating = {Rating.hard: 1.2, Rating.good: 2.3, Rating.easy: 3.3}[rating]!;
+    final difficultyAdjust = {Rating.hard: 0.15, Rating.good: -0.05, Rating.easy: -0.2}[rating]!;
+    difficulty = (difficulty + difficultyAdjust).clamp(1.0, 10.0);
+
+    // Harder items grow their interval more slowly.
+    final difficultyDamping = 1.0 - (difficulty - 5.0) * 0.04;
+    stability = max(1.0, stability * easeByRating * difficultyDamping);
+
+    final intervalDays = wasNew ? 1 : stability;
+    dueAt = DateTime.now().add(Duration(minutes: (intervalDays * 24 * 60).round()));
+  }
 }
 
-/// Tracks per-word spaced-repetition state plus streaks and XP, all
-/// persisted locally (no account/backend in v1).
+/// Tracks per-(lexeme, dimension) review state plus session streak/XP,
+/// persisted locally (no account/backend -- STRATEGY sec 1 infra
+/// decision). Streak/XP carry forward unchanged from Phase 1; STRATEGY
+/// sec 2 explicitly defers new gamification ("do not add games or XP to
+/// the current flat word list [until Phase D]") so this session doesn't
+/// expand that surface, only the scheduling underneath it.
 class ProgressService extends ChangeNotifier {
-  static const _boxIntervalsDays = [0, 1, 3, 7, 16];
-  static const _prefsKey = 'katha_progress_v1';
+  static const _prefsKey = 'katha_progress_v2';
 
-  final Map<String, WordProgress> _progress = {};
+  final Map<String, Map<Dimension, CardState>> _cards = {};
   int streak = 0;
   int totalXp = 0;
   DateTime? _lastStudyDate;
@@ -61,9 +115,13 @@ class ProgressService extends ChangeNotifier {
       totalXp = data['totalXp'] as int? ?? 0;
       final lastStudy = data['lastStudyDate'] as String?;
       _lastStudyDate = lastStudy != null ? DateTime.parse(lastStudy) : null;
-      final wordsJson = data['words'] as Map<String, dynamic>? ?? {};
-      for (final entry in wordsJson.entries) {
-        _progress[entry.key] = WordProgress.fromJson(entry.value as Map<String, dynamic>);
+      final cardsJson = data['cards'] as Map<String, dynamic>? ?? {};
+      for (final entry in cardsJson.entries) {
+        final perDimension = entry.value as Map<String, dynamic>;
+        _cards[entry.key] = {
+          for (final dEntry in perDimension.entries)
+            Dimension.values.byName(dEntry.key): CardState.fromJson(dEntry.value as Map<String, dynamic>),
+        };
       }
     }
     _loaded = true;
@@ -76,49 +134,57 @@ class ProgressService extends ChangeNotifier {
       'streak': streak,
       'totalXp': totalXp,
       'lastStudyDate': _lastStudyDate?.toIso8601String(),
-      'words': _progress.map((key, value) => MapEntry(key, value.toJson())),
+      'cards': _cards.map((lexemeId, perDimension) => MapEntry(
+            lexemeId,
+            perDimension.map((dim, state) => MapEntry(dim.name, state.toJson())),
+          )),
     };
     await prefs.setString(_prefsKey, jsonEncode(data));
   }
 
-  WordProgress? progressFor(String wordId) => _progress[wordId];
+  CardState? cardFor(String lexemeId, Dimension dimension) => _cards[lexemeId]?[dimension];
 
-  /// Words with no progress yet, or whose review is due today or earlier.
-  List<Word> dueWords(List<Word> allWords) {
-    final now = DateTime.now();
-    return allWords.where((w) {
-      final p = _progress[w.id];
-      return p == null || !p.dueAt.isAfter(now);
-    }).toList();
+  /// Lexemes (from [scope]) that are new or due for [dimension], sorted
+  /// oldest-due first.
+  List<String> dueLexemeIds(List<String> scope, Dimension dimension, {int? limit}) {
+    final due = scope.where((id) {
+      final card = _cards[id]?[dimension];
+      return card == null || card.isDue;
+    }).toList()
+      ..sort((a, b) {
+        final da = _cards[a]?[dimension]?.dueAt ?? DateTime(1970);
+        final db = _cards[b]?[dimension]?.dueAt ?? DateTime(1970);
+        return da.compareTo(db);
+      });
+    if (limit != null && due.length > limit) return due.sublist(0, limit);
+    return due;
   }
 
-  int knownCount(String? categoryId, List<Word> scope) =>
-      scope.where((w) => (_progress[w.id]?.box ?? 0) >= _boxIntervalsDays.length - 1).length;
-
-  int learningCount(List<Word> scope) => scope
-      .where((w) => _progress.containsKey(w.id) && (_progress[w.id]!.box) < _boxIntervalsDays.length - 1)
+  int knownCount(Dimension dimension, List<String> scope) => scope
+      .where((id) => (_cards[id]?[dimension]?.stability ?? 0) >= 16)
       .length;
 
-  int newCount(List<Word> scope) => scope.where((w) => !_progress.containsKey(w.id)).length;
+  int learningCount(Dimension dimension, List<String> scope) => scope
+      .where((id) => _cards[id]?[dimension] != null && (_cards[id]![dimension]!.stability) < 16)
+      .length;
 
-  /// Call after the learner answers a flashcard. [knewIt] moves the word
-  /// up a box (longer interval); missing it resets to box 0.
-  Future<void> recordReview(String wordId, bool knewIt) async {
-    final existing = _progress[wordId];
-    final currentBox = existing?.box ?? 0;
-    final nextBox = knewIt
-        ? (currentBox + 1).clamp(0, _boxIntervalsDays.length - 1)
-        : 0;
-    final dueAt = DateTime.now().add(Duration(days: _boxIntervalsDays[nextBox]));
+  int newCount(Dimension dimension, List<String> scope) =>
+      scope.where((id) => _cards[id]?[dimension] == null).length;
 
-    _progress[wordId] = WordProgress(
-      wordId: wordId,
-      box: nextBox,
-      dueAt: dueAt,
-      timesReviewed: (existing?.timesReviewed ?? 0) + 1,
+  Future<void> recordReview(String lexemeId, Dimension dimension, Rating rating) async {
+    final perDimension = _cards.putIfAbsent(lexemeId, () => {});
+    final card = perDimension.putIfAbsent(
+      dimension,
+      () => CardState(dueAt: DateTime.now()),
     );
+    card.applyReview(rating);
 
-    totalXp += knewIt ? 10 : 2;
+    totalXp += switch (rating) {
+      Rating.again => 0,
+      Rating.hard => 5,
+      Rating.good => 10,
+      Rating.easy => 10,
+    };
     _bumpStreakForToday();
 
     await _save();
