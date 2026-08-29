@@ -26,7 +26,23 @@ class ContentService {
   /// test/widget_test.dart) -- production code never sets this.
   static bool debugSkipRemoteFetch = false;
 
+  /// Test-only escape hatch: when set, [load] returns this bundle
+  /// immediately, bypassing both the network fetch AND `rootBundle`
+  /// asset I/O. Widget tests use this rather than letting
+  /// `rootBundle.loadString` run for real: that method does a genuine
+  /// (non-fake) file read, and `TestWidgetsFlutterBinding`'s default
+  /// pumping does not reliably wait for real I/O to complete --
+  /// confirmed by reproducing a `FutureBuilder` around
+  /// `rootBundle.loadString` that hung indefinitely on the *second*
+  /// `testWidgets` in a file despite resolving instantly on the first
+  /// and in isolation. Constructing the bundle synchronously in `setUp`
+  /// sidesteps that class of flakiness entirely rather than chasing it
+  /// with more pumps. Production code never sets this.
+  static ContentBundle? debugOverrideBundle;
+
   Future<ContentBundle> load() async {
+    if (debugOverrideBundle != null) return debugOverrideBundle!;
+
     Map<String, dynamic>? remoteJson;
     if (!debugSkipRemoteFetch) {
       try {
