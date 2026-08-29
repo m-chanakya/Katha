@@ -123,7 +123,14 @@ class _CardBack extends StatelessWidget {
             Text(word.english, style: TextStyle(color: Colors.grey.shade600, fontSize: 15)),
             const SizedBox(height: 12),
             IconButton.filled(
-              onPressed: () => ttsService.speak(word.ttsText),
+              onPressed: () async {
+                final ok = await ttsService.speakWord(word);
+                if (!ok && context.mounted) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text("Pronunciation isn't available on this device yet.")),
+                  );
+                }
+              },
               icon: const Icon(Icons.volume_up),
               style: IconButton.styleFrom(backgroundColor: AppColors.turmeric, foregroundColor: Colors.white),
             ),
