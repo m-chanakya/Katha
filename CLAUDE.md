@@ -198,6 +198,45 @@ Notes:
   alternative worth considering if the device-bridge friction here
   becomes a recurring problem.
 
+## Real FSRS swap (2026-08-30, later)
+
+Replaced the hand-written SM-2-style `CardState` in
+`app/lib/services/progress_service.dart` with the real
+[`fsrs`](https://pub.dev/packages/fsrs) pub package, now that a session
+can `flutter pub add` and inspect its actual API from the device shell.
+
+- `CardState` now wraps an internal `fsrs.Card` (state/stability/
+  difficulty/step/due/lastReview) behind the same public shape it had
+  before (`stability`, `difficulty`, `dueAt`, `reps`, `lapses`, `isNew`,
+  `isDue`, `applyReview(Rating)`) -- no call site outside this file
+  changed. `Scheduler.desiredRetention` defaults to 0.9, which is
+  exactly STRATEGY sec 7's "target ~90% retention," so it's
+  intentionally left unconfigured.
+- **Old saved progress migrates automatically.** `CardState.fromJson`
+  detects the pre-FSRS JSON shape (no `'card'` key) and rebuilds an
+  equivalent `fsrs.Card` from the old flat fields, so upgrading doesn't
+  wipe anyone's actual review history out from under them.
+- **Real FSRS has learning-step behavior the placeholder didn't**: a
+  brand-new card's first "good" rating doesn't jump straight to a
+  multi-day interval -- it advances one learning step (10 min by
+  default) and only graduates to the day-scale review state after a
+  second correct review. This is correct FSRS behavior, not a bug; it
+  will make new items feel like they come back sooner than before.
+- Updated `progress_service_test.dart`'s assertions to check direction
+  and bounds (interval grows, stability positive, easy > good) rather
+  than exact numbers, since those now come from FSRS's own externally
+  maintained parameters rather than arithmetic this codebase owns. One
+  assertion changed on purpose: the placeholder floored stability at a
+  hardcoded 1.0 after a lapse; real FSRS's actual floor is 0.001, so a
+  badly-lapsed card can legitimately come back due within hours. More
+  accurate, not a regression.
+
+Verified: flutter analyze clean, 11/11 tests pass, flutter build web
+succeeds. Not yet done: nothing downstream reads `CardState.difficulty`
+or the FSRS `state`/`step` fields for UI purposes yet (e.g. surfacing
+"learning" vs "review" to the learner) -- STRATEGY's "You" tab (sec 8)
+is the natural home for that, and is Phase D+ anyway.
+
 ## Follow-up fixes, same day (2026-08-30) -- audio + first-pass visual identity
 
 Deployed and clicked through live (`https://m-chanakya.github.io/Katha/`

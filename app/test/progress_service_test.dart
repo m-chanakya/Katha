@@ -1,12 +1,13 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:katha/services/progress_service.dart';
 
-/// Unit tests for the FSRS-lite scheduler (see progress_service.dart's
-/// class doc for why this isn't the real FSRS package yet). These are
-/// the "evals" for the scheduling logic itself: STRATEGY sec 7's whole
-/// premise -- that review intervals grow on success and collapse on
-/// failure -- has to hold or every downstream due-item calculation is
-/// wrong silently.
+/// Unit tests for CardState, the wrapper around the real `fsrs` package
+/// (see progress_service.dart's class doc). These are the "evals" for
+/// the scheduling logic itself: STRATEGY sec 7's whole premise -- that
+/// review intervals grow on success and collapse on failure -- has to
+/// hold or every downstream due-item calculation is wrong silently.
+/// Assertions check direction and bounds rather than exact numbers,
+/// since those come from FSRS's own (externally maintained) parameters.
 void main() {
   group('CardState.applyReview', () {
     test('a new card starts due immediately (isNew, isDue)', () {
@@ -44,10 +45,17 @@ void main() {
       expect(easyCard.stability, greaterThan(goodCard.stability));
     });
 
-    test('a lapse after growth still leaves stability at least 1', () {
+    test('a lapse after growth leaves a positive but reduced stability', () {
+      // Real FSRS's stability floor is 0.001, not the placeholder
+      // scheduler's hardcoded 1.0 -- a card can legitimately end up
+      // very fragile (due again within hours) after a lapse, which is
+      // more accurate than artificially propping it back up to a full
+      // day. This test checks the floor holds and the value dropped,
+      // not a specific number -- see CardState class doc.
       final card = CardState(dueAt: DateTime.now(), stability: 1.2);
       card.applyReview(Rating.again);
-      expect(card.stability, greaterThanOrEqualTo(1.0));
+      expect(card.stability, greaterThan(0));
+      expect(card.stability, lessThan(1.2));
     });
   });
 

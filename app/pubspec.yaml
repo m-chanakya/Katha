@@ -52,6 +52,7 @@ dependencies:
   # Fetches the content bundle from the CDN (falls back to the bundled
   # asset below) -- see lib/services/content_service.dart.
   http: ^1.2.0
+  fsrs: ^2.0.1
 
 dev_dependencies:
   flutter_test:
