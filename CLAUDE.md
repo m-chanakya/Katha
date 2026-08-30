@@ -198,6 +198,44 @@ Notes:
   alternative worth considering if the device-bridge friction here
   becomes a recurring problem.
 
+## Follow-up fixes, same day (2026-08-30) -- audio + first-pass visual identity
+
+Deployed and clicked through live (`https://m-chanakya.github.io/Katha/`
+via the browser device bridge). Two things reported: audio silent, UX
+too bare. Both fixed and pushed for review as commit `d5be982`:
+
+- **Audio was silent for two independent reasons, not one.** (1)
+  `TtsService._ensureInit()` asked the browser for its voice list
+  exactly once, immediately -- web loads voices asynchronously, so this
+  always saw `[]` and permanently gave up on Telugu-voice detection,
+  even on a Mac that actually has one ("Geeta", te-IN) installed. Now
+  polls briefly first. (2) Independent of that: `Exercise.audioText`
+  (`Lexeme.ttsText` = script-or-translit) was passed as *both* the
+  script and the "no-Telugu-voice fallback" argument at every call
+  site, so the fallback was still Telugu script text fed to a
+  non-Telugu voice -- silence by design per `TtsService`'s own doc
+  comment. Added a real `Exercise.audioTranslit` sourced from
+  `Lexeme.translit` and wired it through. **Lesson for future sessions
+  chasing a "some devices work, some don't" TTS report: check what text
+  is actually reaching the fallback path before assuming it's a voice
+  availability problem** -- confirmed by patching
+  `speechSynthesis.speak` in the live page via the browser device
+  bridge's `javascript_tool` and reading back the utterance text, not
+  by reasoning about the code alone.
+- **First real pass at BRANDING.md's Phase A visual-identity checklist**
+  (color tokens, Anek fonts, dark mode) -- see `app/lib/theme/app_theme.dart`.
+  Session/home screens got layout and feedback-color follow-through
+  (centered/width-capped session view, `AppSemanticColors` for
+  pacha/erra instead of raw `Colors.green/red`). Not done: the
+  mascot/illustration system (explicitly Phase D+ per BRANDING sec 9),
+  and `TeluguText` isn't wired into any screen yet since native script
+  isn't surfaced in the UI at all currently (STRATEGY: transliteration
+  first, script "surfaced later"). `google_fonts` fetches Anek at
+  runtime from Google's CDN -- fine for real users, but this session's
+  device-shell network blocks `fonts.gstatic.com`, so font rendering
+  couldn't be visually verified from here (only via the browser device
+  bridge, which uses the machine's real network and did work).
+
 ## Next steps (in rough order)
 
 1. **You**: `git push` (this VM has network but no push credentials --
