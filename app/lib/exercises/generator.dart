@@ -39,6 +39,7 @@ class RecallFlipGenerator extends ExerciseGenerator {
         correctAnswer: target.gloss,
         detail: target.gloss,
         audioText: target.ttsText,
+        audioTranslit: target.translit,
       );
 }
 
@@ -88,6 +89,7 @@ class AudioListenGenerator extends ExerciseGenerator {
       correctAnswer: target.gloss,
       options: options,
       audioText: target.ttsText,
+      audioTranslit: target.translit,
     );
   }
 }

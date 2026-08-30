@@ -26,6 +26,8 @@ class KathaApp extends StatelessWidget {
         title: 'Katha',
         debugShowCheckedModeBanner: false,
         theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: ThemeMode.system,
         home: const _AppRoot(),
       ),
     );

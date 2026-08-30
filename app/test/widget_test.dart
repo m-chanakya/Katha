@@ -64,6 +64,13 @@ void main() {
     // checks the session screen loaded and is showing *an* exercise
     // rather than asserting specific card text.
     expect(find.byType(SessionScreen), findsOneWidget);
-    expect(find.byType(ElevatedButton), findsWidgets);
+    // Exercise type varies (recallFlip / mcq / audioListen / matchPairs)
+    // and each renders different interactive controls, so check for any
+    // of the ones that show up before an answer is given, rather than
+    // one specific widget type.
+    expect(
+      find.byWidgetPredicate((w) => w is ElevatedButton || w is OutlinedButton || w is IconButton),
+      findsWidgets,
+    );
   });
 }

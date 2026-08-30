@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../exercises/exercise.dart';
 import '../services/progress_service.dart';
 import '../services/tts_service.dart';
+import '../theme/app_theme.dart';
 
 /// Runs one exercise queue end to end, recording each answer against
 /// [ProgressService] before advancing. Each [ExerciseType] gets its own
@@ -48,12 +49,37 @@ class _SessionScreenState extends State<SessionScreen> {
         title: Text(widget.unitTitle),
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(4),
-          child: LinearProgressIndicator(value: _index / widget.session.length),
+          child: ClipRRect(
+            child: LinearProgressIndicator(value: _index / widget.session.length, minHeight: 4),
+          ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: _buildForType(_current),
+      // A single lesson item, centered and width-capped so a wide
+      // desktop/web window doesn't leave the card marooned in a sea of
+      // ground color -- the flat-list-of-buttons look this replaces was
+      // most of what read as "bare" rather than "calm".
+      body: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 480),
+          child: Padding(
+            padding: const EdgeInsets.all(20),
+            child: AnimatedSwitcher(
+              duration: const Duration(milliseconds: 220),
+              switchInCurve: Curves.easeOut,
+              transitionBuilder: (child, animation) => FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position: Tween<Offset>(begin: const Offset(0, 0.03), end: Offset.zero).animate(animation),
+                  child: child,
+                ),
+              ),
+              child: KeyedSubtree(
+                key: ValueKey(_index),
+                child: _buildForType(_current),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -121,6 +147,46 @@ class _SessionScreenState extends State<SessionScreen> {
   }
 }
 
+/// A round speaker button shared by the flip and MCQ/audio views, so
+/// pronunciation playback looks and behaves the same everywhere it
+/// appears.
+class _SpeakerButton extends StatefulWidget {
+  final VoidCallback onPressed;
+  final double size;
+
+  const _SpeakerButton({required this.onPressed, this.size = 40});
+
+  @override
+  State<_SpeakerButton> createState() => _SpeakerButtonState();
+}
+
+class _SpeakerButtonState extends State<_SpeakerButton> with SingleTickerProviderStateMixin {
+  bool _pressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: _pressed ? 0.9 : 1.0,
+      duration: const Duration(milliseconds: 120),
+      child: IconButton.filled(
+        iconSize: widget.size * 0.5,
+        style: IconButton.styleFrom(
+          minimumSize: Size(widget.size, widget.size),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+        ),
+        icon: const Icon(Icons.volume_up_rounded),
+        onPressed: () {
+          setState(() => _pressed = true);
+          widget.onPressed();
+          Future.delayed(const Duration(milliseconds: 140), () {
+            if (mounted) setState(() => _pressed = false);
+          });
+        },
+      ),
+    );
+  }
+}
+
 class _RecallFlipView extends StatelessWidget {
   final Exercise exercise;
   final bool revealed;
@@ -145,15 +211,18 @@ class _RecallFlipView extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(exercise.prompt ?? '', style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center),
-                      IconButton(
-                        icon: const Icon(Icons.volume_up),
-                        onPressed: () => tts.speak(script: null, translit: exercise.audioText ?? exercise.prompt ?? ''),
+                      const SizedBox(height: 12),
+                      _SpeakerButton(
+                        onPressed: () => tts.speak(script: exercise.audioText, translit: exercise.audioTranslit ?? exercise.prompt ?? ''),
                       ),
                       if (revealed) ...[
                         const Divider(height: 32),
                         Text(exercise.detail ?? '', style: Theme.of(context).textTheme.titleLarge, textAlign: TextAlign.center),
                       ] else
-                        Text('Tap to reveal', style: Theme.of(context).textTheme.bodySmall),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 24),
+                          child: Text('Tap to reveal', style: Theme.of(context).textTheme.bodySmall),
+                        ),
                     ],
                   ),
                 ),
@@ -191,33 +260,54 @@ class _McqView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final tts = context.read<TtsService>();
+    final semantic = Theme.of(context).extension<AppSemanticColors>()!;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
       children: [
         if (exercise.audioText != null)
           Center(
-            child: IconButton.filled(
-              iconSize: 40,
-              icon: const Icon(Icons.volume_up),
-              onPressed: () => tts.speak(script: exercise.audioText, translit: exercise.audioText!),
+            child: _SpeakerButton(
+              size: 72,
+              onPressed: () => tts.speak(script: exercise.audioText, translit: exercise.audioTranslit ?? exercise.audioText!),
             ),
           )
         else
           Text(exercise.prompt ?? '', style: Theme.of(context).textTheme.headlineMedium, textAlign: TextAlign.center),
-        const SizedBox(height: 24),
+        const SizedBox(height: 32),
         ...(exercise.options ?? []).map((option) {
           final isSelected = option == selected;
           final isCorrect = option == exercise.correctAnswer;
-          Color? color;
-          if (selected != null && isSelected) color = isCorrect ? Colors.green.shade200 : Colors.red.shade200;
-          if (selected != null && isCorrect) color = Colors.green.shade200;
-          return Padding(
+
+          Widget button = OutlinedButton(
+            onPressed: selected == null ? () => onSelect(option) : null,
+            child: Text(option),
+          );
+
+          if (selected != null && (isSelected || isCorrect)) {
+            final color = isCorrect ? semantic.pacha : semantic.erra;
+            button = OutlinedButton(
+              onPressed: null,
+              style: OutlinedButton.styleFrom(
+                disabledForegroundColor: color,
+                disabledBackgroundColor: color.withValues(alpha: 0.12),
+                side: BorderSide(color: color, width: 1.5),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(isCorrect ? Icons.check_circle : Icons.cancel, size: 18, color: color),
+                  const SizedBox(width: 8),
+                  Text(option, style: TextStyle(color: color)),
+                ],
+              ),
+            );
+          }
+
+          return AnimatedPadding(
+            duration: const Duration(milliseconds: 150),
             padding: const EdgeInsets.only(bottom: 12),
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.black87),
-              onPressed: selected == null ? () => onSelect(option) : null,
-              child: Text(option),
-            ),
+            child: button,
           );
         }),
       ],
@@ -243,6 +333,7 @@ class _MatchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final pairs = exercise.pairs!;
+    final cta = Theme.of(context).colorScheme.primary;
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -253,7 +344,12 @@ class _MatchView extends StatelessWidget {
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
                 child: OutlinedButton(
-                  style: isPending ? OutlinedButton.styleFrom(backgroundColor: Colors.amber.shade100) : null,
+                  style: isPending
+                      ? OutlinedButton.styleFrom(
+                          backgroundColor: cta.withValues(alpha: 0.14),
+                          side: BorderSide(color: cta, width: 1.5),
+                        )
+                      : null,
                   onPressed: () => onTapLeft(p.left),
                   child: Text(p.left),
                 ),
@@ -290,20 +386,37 @@ class _SummaryView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final pct = total == 0 ? 0.0 : correct / total;
+    final semantic = Theme.of(context).extension<AppSemanticColors>()!;
     return Scaffold(
       appBar: AppBar(title: Text(unitTitle)),
       body: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.celebration, size: 64),
-            const SizedBox(height: 16),
-            Text('$correct / $total', style: Theme.of(context).textTheme.headlineMedium),
-            const SizedBox(height: 8),
-            const Text('Session complete!'),
-            const SizedBox(height: 24),
-            ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Done')),
-          ],
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 420),
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 500),
+                  curve: Curves.elasticOut,
+                  builder: (context, value, child) => Transform.scale(scale: value, child: child),
+                  child: Icon(Icons.celebration, size: 64, color: pct >= 0.8 ? semantic.pacha : Theme.of(context).colorScheme.primary),
+                ),
+                const SizedBox(height: 16),
+                Text('$correct / $total', style: Theme.of(context).textTheme.headlineMedium),
+                const SizedBox(height: 8),
+                const Text('Session complete!'),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: const Text('Done')),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -22,14 +22,28 @@ class TtsService {
 
   Future<void> _ensureInit() async {
     if (_initialized) return;
-    _initialized = true;
     try {
-      final languages = await _tts.getLanguages;
-      if (languages is List) {
-        _teluguVoiceAvailable = languages.any(
-          (l) => l.toString().toLowerCase().startsWith('te'),
-        );
+      // On web (and some other platforms), the browser's voice list loads
+      // asynchronously after page load -- calling getLanguages() right
+      // away can return an empty list even when the device actually has
+      // dozens of voices, including a Telugu one. An empty result here
+      // is ambiguous ("no voices yet" vs "genuinely none"), so poll
+      // briefly before concluding there's no Telugu voice -- otherwise
+      // this permanently and incorrectly disables the native-script
+      // voice for the whole session on the exact platform (web) most
+      // users will hit first.
+      List<dynamic> languages = const [];
+      for (var attempt = 0; attempt < 15; attempt++) {
+        final result = await _tts.getLanguages;
+        if (result is List && result.isNotEmpty) {
+          languages = result;
+          break;
+        }
+        await Future.delayed(const Duration(milliseconds: 200));
       }
+      _teluguVoiceAvailable = languages.any(
+        (l) => l.toString().toLowerCase().startsWith('te'),
+      );
       debugPrint('TtsService: Telugu voice available = $_teluguVoiceAvailable (languages: $languages)');
       if (_teluguVoiceAvailable) {
         await _tts.setLanguage('te-IN');
@@ -38,15 +52,20 @@ class TtsService {
       await _tts.setPitch(1.0);
     } catch (e) {
       debugPrint('TtsService: init failed, will fall back to transliteration. Error: $e');
+    } finally {
+      _initialized = true;
     }
   }
 
   /// Speaks a lexeme, preferring [script] when a Telugu voice is
-  /// available and falling back to [translit] otherwise. Returns false
-  /// only if the engine actually threw — the success value some
-  /// platforms return from `speak()` isn't consistent enough across
-  /// web/iOS/Android to gate the UI on, so a thrown exception is the
-  /// only signal treated as a real failure.
+  /// available and falling back to [translit] otherwise. Callers must
+  /// pass a genuine Latin transliteration for [translit] -- passing the
+  /// Telugu script again here defeats the fallback entirely, since a
+  /// non-Telugu voice fed Telugu glyphs typically produces silence (see
+  /// class doc). Returns false only if the engine actually threw -- the
+  /// success value some platforms return from `speak()` isn't consistent
+  /// enough across web/iOS/Android to gate the UI on, so a thrown
+  /// exception is the only signal treated as a real failure.
   Future<bool> speak({required String? script, required String translit}) async {
     await _ensureInit();
     final text = (_teluguVoiceAvailable && script != null) ? script : translit;

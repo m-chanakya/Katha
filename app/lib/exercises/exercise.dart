@@ -27,7 +27,8 @@ class Exercise {
   final String? prompt; // shown as the question
   final String? correctAnswer; // display text of the right answer
   final List<String>? options; // mcq/audioListen choices, includes correct, shuffled
-  final String? audioText; // non-null => play this via TTS before/with the prompt
+  final String? audioText; // non-null => play this via TTS before/with the prompt (native script when available)
+  final String? audioTranslit; // Latin transliteration to fall back to when no Telugu voice is available
   final String? detail; // recallFlip's "back of card" text (gloss + example)
   final List<MatchPair>? pairs; // matchPairs only
 
@@ -39,6 +40,7 @@ class Exercise {
     this.correctAnswer,
     this.options,
     this.audioText,
+    this.audioTranslit,
     this.detail,
     this.pairs,
   });

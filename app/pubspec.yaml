@@ -38,6 +38,9 @@ dependencies:
   # State management
   provider: ^6.1.2
 
+  # Brand typography (Anek Telugu + Anek Latin, see BRANDING.md sec 3)
+  google_fonts: ^6.2.1
+
   # Text-to-speech for pronunciation (v1). Word model carries an optional
   # audioAsset field so real recordings can replace TTS per-word later
   # without changing the UI layer.
