@@ -198,6 +198,43 @@ Notes:
   alternative worth considering if the device-bridge friction here
   becomes a recurring problem.
 
+## Weekly muggu on the homepage (2026-08-31)
+
+First deliberate step into BRANDING.md sec 7's Phase D engagement
+mechanics -- scoped down on purpose after a design discussion: **just
+the muggu**, staying local-only storage (no backend), as a programmatic
+placeholder motif rather than waiting on real illustration. Ginjalu
+(XP rename), marapu ink-fade, leech clinic and Uduta are explicitly
+*not* in this pass -- see that conversation if picking those up later,
+and re-confirm scope rather than assuming "finish Phase D" was implied.
+
+- `ProgressService` now tracks a `Map<String,int>` of items-reviewed
+  per calendar day (`_dailyReviewCounts`, persisted, trimmed to 30
+  days), and a fixed `dailyItemGoal = 8` (STRATEGY sec 8's "~8 due
+  items" number, not yet the adaptive FSRS-forecast version it
+  describes -- that's a real follow-up, not this pass). `weekMuggu()`
+  returns the current Monday..Sunday as `MugguDay`s
+  (complete/incomplete/today/future).
+- `app/lib/widgets/muggu.dart`: `WeeklyMuggu` renders those 7 days as a
+  row of small hand-drawn loop motifs (`CustomPainter`, not an
+  authentic kolam algorithm -- a stand-in for the real illustrated
+  version BRANDING sec 7 wants eventually). Complete days use `pacha`,
+  today fills in proportionally to items reviewed so far, future days
+  are barely-there placeholders. Swapping in real art later is a
+  one-file change.
+- Home screen: dropped the bare streak-number chip from the app bar
+  (redundant now) and put `WeeklyMuggu` at the top of the unit list
+  instead, per the explicit ask to make progress visualizable rather
+  than a number.
+- Added `ProgressService.weekMuggu()` unit tests (week bounds, today
+  vs incomplete vs future, goal-reached -> complete).
+
+Verified: flutter analyze clean, 15/15 tests pass, flutter build web
+succeeds. **Not verified visually** -- this session's local web-server
+smoke test couldn't reach the device's browser (different network
+namespace than the device shell), so the muggu's actual look hasn't
+been eyeballed by anyone yet. Worth a real look after this deploys.
+
 ## Real FSRS swap (2026-08-30, later)
 
 Replaced the hand-written SM-2-style `CardState` in

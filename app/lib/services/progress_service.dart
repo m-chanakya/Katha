@@ -123,7 +123,21 @@ class CardState {
 class ProgressService extends ChangeNotifier {
   static const _prefsKey = 'katha_progress_v2';
 
+  /// Items reviewed in a day counts that day toward the muggu (STRATEGY
+  /// sec 8: "goal is items, not minutes... ~8 due items, set adaptively
+  /// from the FSRS forecast"). Fixed for now rather than adaptive --
+  /// the forecast-driven version is a real follow-up, not this pass.
+  static const int dailyItemGoal = 8;
+
+  /// How many days of review counts to retain -- only the current
+  /// week's worth is ever displayed, but a little history costs
+  /// nothing and leaves room for a monthly view later.
+  static const int _dailyHistoryDays = 30;
+
   final Map<String, Map<Dimension, CardState>> _cards = {};
+  // Keyed by 'yyyy-mm-dd' (local date) -> number of items reviewed
+  // that day, which is what the muggu (weekly progress grid) reads.
+  final Map<String, int> _dailyReviewCounts = {};
   int streak = 0;
   int totalXp = 0;
   DateTime? _lastStudyDate;
@@ -148,6 +162,8 @@ class ProgressService extends ChangeNotifier {
             Dimension.values.byName(dEntry.key): CardState.fromJson(dEntry.value as Map<String, dynamic>),
         };
       }
+      final dailyJson = data['dailyReviewCounts'] as Map<String, dynamic>? ?? {};
+      _dailyReviewCounts.addAll(dailyJson.map((k, v) => MapEntry(k, v as int)));
     }
     _loaded = true;
     notifyListeners();
@@ -163,6 +179,7 @@ class ProgressService extends ChangeNotifier {
             lexemeId,
             perDimension.map((dim, state) => MapEntry(dim.name, state.toJson())),
           )),
+      'dailyReviewCounts': _dailyReviewCounts,
     };
     await prefs.setString(_prefsKey, jsonEncode(data));
   }
@@ -211,6 +228,8 @@ class ProgressService extends ChangeNotifier {
       Rating.easy => 10,
     };
     _bumpStreakForToday();
+    _bumpDailyReviewCount();
+    _trimDailyReviewHistory();
 
     await _save();
     notifyListeners();
@@ -235,4 +254,58 @@ class ProgressService extends ChangeNotifier {
   }
 
   DateTime _dateOnly(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  String _dayKey(DateTime d) {
+    final date = _dateOnly(d);
+    return '${date.year.toString().padLeft(4, '0')}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}';
+  }
+
+  void _bumpDailyReviewCount() {
+    final key = _dayKey(DateTime.now());
+    _dailyReviewCounts[key] = (_dailyReviewCounts[key] ?? 0) + 1;
+  }
+
+  void _trimDailyReviewHistory() {
+    if (_dailyReviewCounts.length <= _dailyHistoryDays) return;
+    final cutoff = _dateOnly(DateTime.now()).subtract(const Duration(days: _dailyHistoryDays));
+    _dailyReviewCounts.removeWhere((key, _) {
+      final parts = key.split('-').map(int.parse).toList();
+      return DateTime(parts[0], parts[1], parts[2]).isBefore(cutoff);
+    });
+  }
+
+  /// This calendar week (Monday..Sunday) as muggu day states -- see
+  /// BRANDING.md sec 7 "The streak, visualised": completing the day's
+  /// item goal draws one more loop; a missed day leaves the muggu
+  /// unfinished rather than destroying it; the week resets Monday.
+  List<MugguDay> weekMuggu() {
+    final today = _dateOnly(DateTime.now());
+    final monday = today.subtract(Duration(days: today.weekday - 1));
+    return List.generate(7, (i) {
+      final day = monday.add(Duration(days: i));
+      final count = _dailyReviewCounts[_dayKey(day)] ?? 0;
+      final MugguDayState state;
+      if (day.isAfter(today)) {
+        state = MugguDayState.future;
+      } else if (day == today) {
+        state = count >= dailyItemGoal ? MugguDayState.complete : MugguDayState.today;
+      } else {
+        state = count >= dailyItemGoal ? MugguDayState.complete : MugguDayState.incomplete;
+      }
+      return MugguDay(date: day, itemsReviewed: count, state: state);
+    });
+  }
+}
+
+/// One day's cell in the weekly muggu grid.
+enum MugguDayState { complete, incomplete, today, future }
+
+class MugguDay {
+  final DateTime date;
+  final int itemsReviewed;
+  final MugguDayState state;
+
+  const MugguDay({required this.date, required this.itemsReviewed, required this.state});
+
+  double get progress => (itemsReviewed / ProgressService.dailyItemGoal).clamp(0.0, 1.0);
 }

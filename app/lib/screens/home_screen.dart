@@ -5,6 +5,7 @@ import '../exercises/session_provider.dart';
 import '../models/content.dart';
 import '../services/progress_service.dart';
 import '../theme/app_theme.dart';
+import '../widgets/muggu.dart';
 import 'session_screen.dart';
 
 /// Unit picker (replaces the old category deck picker 1:1 -- the 9
@@ -30,16 +31,6 @@ class HomeScreen extends StatelessWidget {
             padding: const EdgeInsets.only(right: 16),
             child: Center(
               child: _StatChip(
-                icon: Icons.local_fire_department_rounded,
-                value: '${progress.streak}',
-                color: semantic.pacha,
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 16),
-            child: Center(
-              child: _StatChip(
                 icon: Icons.star_rounded,
                 value: '${progress.totalXp}',
                 color: theme.colorScheme.secondary,
@@ -50,9 +41,16 @@ class HomeScreen extends StatelessWidget {
       ),
       body: ListView.builder(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-        itemCount: content.units.length,
+        // +1 for the weekly muggu header above the unit list.
+        itemCount: content.units.length + 1,
         itemBuilder: (context, index) {
-          final unit = content.units[index];
+          if (index == 0) {
+            return Padding(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: WeeklyMuggu(days: progress.weekMuggu()),
+            );
+          }
+          final unit = content.units[index - 1];
           final lexemes = unit.lexemeIds;
           final known = progress.knownCount(Dimension.recognition, lexemes);
           final total = lexemes.length;

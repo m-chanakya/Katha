@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:katha/services/progress_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 /// Unit tests for CardState, the wrapper around the real `fsrs` package
 /// (see progress_service.dart's class doc). These are the "evals" for
@@ -68,4 +69,44 @@ void main() {
       expect(due, containsAll(['a', 'b']));
     });
   });
+
+  group('ProgressService.weekMuggu', () {
+    test('returns Monday..Sunday of the current week, 7 entries', () {
+      final service = ProgressService();
+      final week = service.weekMuggu();
+      expect(week, hasLength(7));
+      expect(week.first.date.weekday, DateTime.monday);
+      expect(week.last.date.weekday, DateTime.sunday);
+    });
+
+    test('a day with no reviews yet is "today" if today, else "incomplete"', () {
+      final service = ProgressService();
+      final today = service.weekMuggu().firstWhere((d) => _isSameDay(d.date, DateTime.now()));
+      expect(today.state, MugguDayState.today);
+      expect(today.itemsReviewed, 0);
+    });
+
+    test('reaching the daily item goal marks today complete', () async {
+      TestWidgetsFlutterBinding.ensureInitialized();
+      SharedPreferences.setMockInitialValues({});
+      final service = ProgressService();
+      for (var i = 0; i < ProgressService.dailyItemGoal; i++) {
+        await service.recordReview('lex-\$i', Dimension.recognition, Rating.good);
+      }
+      final today = service.weekMuggu().firstWhere((d) => _isSameDay(d.date, DateTime.now()));
+      expect(today.state, MugguDayState.complete);
+      expect(today.itemsReviewed, ProgressService.dailyItemGoal);
+    });
+
+    test('days after today in the week are "future"', () {
+      final service = ProgressService();
+      final week = service.weekMuggu();
+      final future = week.where((d) => d.date.isAfter(DateTime.now()));
+      for (final d in future) {
+        expect(d.state, MugguDayState.future);
+      }
+    });
+  });
 }
+
+bool _isSameDay(DateTime a, DateTime b) => a.year == b.year && a.month == b.month && a.day == b.day;
