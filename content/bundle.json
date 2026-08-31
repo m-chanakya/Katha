@@ -1534,7 +1534,200 @@
     }
   ],
   "forms": [],
-  "concepts": [],
+  "concepts": [
+    {
+      "id": "c_polite_ndi",
+      "title": "Politeness lives at the end of the verb",
+      "bridgeKind": "free",
+      "description": "Telugu marks respect twice over: the pronoun meeru instead of nuvvu, and a verb that ends in -ndi or -ru. Manninchandi, ivvandi, cheppandi are all the polite form of a request. Drop the -ndi and you are talking to a child or a close friend — which is a real choice you will make at every sentence, not an optional flourish.",
+      "bridge": {
+        "hi": "Hindi already makes you do this: तुम आओ and आप आइए are the same request at two levels of respect, and you pick before you can finish the sentence. Telugu asks for the same decision and puts the answer in the same place — on the end of the verb. What carries over is the habit; what changes is only the ending you reach for."
+      },
+      "exampleSentenceIds": [
+        "s_ela_unnaru_2",
+        "s_manninchandi_9",
+        "s_dayachesi_10"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_kinship_age",
+      "title": "There is no word for 'brother'",
+      "bridgeKind": "new",
+      "description": "Telugu has anna (elder brother) and thammudu (younger brother), akka (elder sister) and chelli (younger sister) — and nothing in between. You cannot mention a sibling without first settling whether they are older or younger than you. The same asymmetry runs through the whole kinship system, which is why it is worth meeting on day one rather than as a curiosity later.",
+      "bridge": {
+        "hi": "Hindi gives you भाई and बहन and lets you add बड़ा or छोटा when it matters. Telugu removes the choice: age is baked into the noun, so there is no neutral word to fall back on while you think. When you meet the family, this is the first thing you will have to get right — and the first thing they will notice you got right."
+      },
+      "exampleSentenceIds": [
+        "s_anna_13",
+        "s_akka_14",
+        "s_thammudu_15",
+        "s_chelli_16"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_zero_copula",
+      "title": "Telugu leaves out 'is'",
+      "bridgeKind": "twist",
+      "description": "Naa akka doctor — 'my elder sister doctor'. There is no verb. Telugu simply puts the two things side by side and lets the sentence end. This is not casual speech or clipping; it is how the sentence is built.",
+      "bridge": {
+        "hi": "This is the one place Hindi will actively work against you. मेरी बहन डॉक्टर है needs है, and leaving it off sounds broken. Telugu needs the opposite: put a verb where है would go and the sentence sounds wrong. The rule is short — say the Hindi sentence, then delete है — but the habit takes a while, because you are unlearning something rather than learning it."
+      },
+      "exampleSentenceIds": [
+        "s_amma_11",
+        "s_akka_14",
+        "s_bharta_20"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_number_before_noun",
+      "title": "Counting things",
+      "bridgeKind": "free",
+      "description": "The number goes in front of the noun, and the noun usually shifts to its plural form: pandu becomes pandlu, nimisham becomes nimishalu. Telugu changes the end of a noun more often than Hindi does, so expect the word you learned in the singular to look slightly different once you count it.",
+      "bridge": {
+        "hi": "Word order is free: दो फल is rendu pandlu, in that order, no adjustment needed. The part to watch is the noun's ending rather than its position — Hindi lets many nouns sit unchanged after a number, and Telugu tends not to."
+      },
+      "exampleSentenceIds": [
+        "s_rendu_22",
+        "s_naalugu_24",
+        "s_padi_28"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_rangu",
+      "title": "Colours that need the word 'colour'",
+      "bridgeKind": "new",
+      "description": "Some Telugu colours attach straight to the noun — erra, pacha, nalla, thella. Others only exist as '<thing> colour': gulabi rangu (rose colour), godhuma rangu (wheat colour), kamala rangu (orange colour). The two-word form is the normal adult way to say those colours, not a beginner's workaround, and rangu is also the word you need to talk about colour itself.",
+      "bridge": {
+        "hi": "Hindi does the same borrowing — गुलाबी is a rose, भूरा is close to wheat — but has settled on single words for most colours. Telugu keeps the longer form in circulation for a good half of them, so the thing to learn is which colours take rangu, not a rule that predicts it."
+      },
+      "exampleSentenceIds": [
+        "s_erra_29",
+        "s_gulabi_rangu_37",
+        "s_godhuma_rangu_35"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_dative_want",
+      "title": "Wanting something: naaku kaavali",
+      "bridgeKind": "free",
+      "description": "To say you want something, you do not say 'I' — you say naaku, 'to me'. Naaku kaapi kaavali is literally 'to me coffee is wanted'. The same shape carries liking (naaku ishtam), knowing (naaku telusu) and understanding (naaku ardhamaindi), so this one pattern unlocks a large share of everything you will want to say.",
+      "bridge": {
+        "hi": "Straight lift from Hindi: मुझे कॉफ़ी चाहिए puts मुझे, not मैं, in front, for exactly the same reason. The wanter is not the subject in either language. This is the habit English speakers spend months acquiring and you already have — naaku is मुझे, and the rest of the sentence follows."
+      },
+      "exampleSentenceIds": [
+        "s_kaapi_42",
+        "s_okati_21",
+        "s_theepi_48"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_plural_liquids",
+      "title": "Water and milk are plural",
+      "bridgeKind": "twist",
+      "description": "Neellu and paalu are grammatically plural in Telugu — there is no ordinary singular for either. It sounds like a quirk until it starts governing the verbs around them, at which point it stops being a quirk and starts being the reason a sentence sounds wrong.",
+      "bridge": {
+        "hi": "पानी and दूध are singular in Hindi and behave that way all the way through the sentence. Telugu treats them as plural, so the agreement you would carry over from Hindi is the thing to leave behind here."
+      },
+      "exampleSentenceIds": [
+        "s_neellu_40",
+        "s_paalu_41"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_e_question_family",
+      "title": "Every question word starts with e-",
+      "bridgeKind": "new",
+      "description": "Ekkada, eppudu, ela, enduku, evaru, enti, enta, edi — where, when, how, why, who, what, how much, which. All eight begin with e-. That is one pattern instead of eight unrelated words, and the real payoff is in listening: you can tell you are being asked something before you have worked out what.",
+      "bridge": {
+        "hi": "Hindi has the same trick with a different letter — कब, कहाँ, कौन, क्या, क्यों all start with क-. So the idea of a question-word family is already familiar; you are just swapping क- for e-. Note that Telugu's e- words end differently from each other, so listen past the first sound to tell them apart."
+      },
+      "exampleSentenceIds": [
+        "s_ekkada_49",
+        "s_eppudu_50",
+        "s_evaru_53"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_question_word_position",
+      "title": "The question word sits where the answer would",
+      "bridgeKind": "twist",
+      "description": "Mee peru enti? is literally 'your name what?'. Telugu leaves the question word in the slot the answer will occupy, which in practice puts it near the end of the sentence — often right before the verb, or as the last word entirely.",
+      "bridge": {
+        "hi": "Hindi keeps the question word in place too: तुम्हारा नाम क्या है? has क्या exactly where the name goes. So the instinct transfers. The difference is where the sentence stops — Hindi still needs है after क्या, and Telugu frequently has nothing after enti at all."
+      },
+      "exampleSentenceIds": [
+        "s_enti_54",
+        "s_ekkada_49",
+        "s_enta_55"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_vaaram",
+      "title": "Seven days, one ending",
+      "bridgeKind": "free",
+      "description": "Every day of the week ends in -vaaram, and the part in front is a planet: soma (moon), mangala (Mars), budha (Mercury), guru (Jupiter), sukra (Venus), shani (Saturn), aadi (sun). Learn the ending and you have learned most of seven words.",
+      "bridge": {
+        "hi": "Identical, because both languages take it from Sanskrit: सोमवार, मंगलवार, बुधवार, and so on down the week. Telugu says -vaaram where Hindi says -वार, and the planet names in front are the ones you already know. This is the cheapest set of seven words in the course."
+      },
+      "exampleSentenceIds": [
+        "s_somavaram_57",
+        "s_shanivaram_62",
+        "s_aadivaram_63"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_noppiga_undi",
+      "title": "Saying something hurts",
+      "bridgeKind": "twist",
+      "description": "Telugu does not say 'I have a headache'. It says the head is being painful: thala noppiga undi. Watch the last word — a singular body part takes undi, a plural one takes unnayi. Naa kaalu noppiga undi, but naa kallu noppiga unnayi.",
+      "bridge": {
+        "hi": "Hindi builds it the same way — मेरे सिर में दर्द है makes the pain the thing that exists rather than something you have, so the shape is familiar. Hindi's है/हैं agreement also has a Telugu counterpart in undi/unnayi. What is new is that several Telugu body parts (kallu, chevulu) are plural where the Hindi word is not, so the agreement lands differently than you would guess."
+      },
+      "exampleSentenceIds": [
+        "s_thala_64",
+        "s_kaalu_70",
+        "s_kallu_65"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    },
+    {
+      "id": "c_undi_untundi",
+      "title": "undi and untundi",
+      "bridgeKind": "new",
+      "description": "Both translate to 'is', and they are not interchangeable. Undi reports a state right now: adavilo puli undi, there is a tiger in the forest — go and look. Untundi describes what is generally so: chepa neellalo untundi, fish live in water. Reach for untundi when you are stating how things are as a rule.",
+      "bridge": {
+        "hi": "Hindi covers both with है and lets context sort it out — मछली पानी में है works as a general truth and as a report about one fish. Telugu makes you choose, so a habit Hindi never required becomes a decision in every sentence of this kind. Expect to hear the difference before you can produce it."
+      },
+      "exampleSentenceIds": [
+        "s_puli_77",
+        "s_chepa_81",
+        "s_enugu_78"
+      ],
+      "unaudited": true,
+      "prerequisiteConceptIds": []
+    }
+  ],
   "sentences": [
     {
       "id": "s_namaskaram_1",
@@ -2552,7 +2745,9 @@
         "manninchandi",
         "dayachesi"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_polite_ndi"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2572,7 +2767,10 @@
         "bhaarya",
         "bharta"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_kinship_age",
+        "c_zero_copula"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2592,7 +2790,9 @@
         "tommidi",
         "padi"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_number_before_noun"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2612,7 +2812,9 @@
         "gulabi_rangu",
         "ooda_rangu"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_rangu"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2632,7 +2834,10 @@
         "uppu",
         "theepi"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_dative_want",
+        "c_plural_liquids"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2650,7 +2855,10 @@
         "enta",
         "edi"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_e_question_family",
+        "c_question_word_position"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2667,7 +2875,9 @@
         "shanivaram",
         "aadivaram"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_vaaram"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2687,7 +2897,9 @@
         "juttu",
         "pota"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_noppiga_undi"
+      ],
       "prerequisiteUnitIds": []
     },
     {
@@ -2707,7 +2919,9 @@
         "nemali",
         "paamu"
       ],
-      "conceptIds": [],
+      "conceptIds": [
+        "c_undi_untundi"
+      ],
       "prerequisiteUnitIds": []
     }
   ]
