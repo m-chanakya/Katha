@@ -148,7 +148,10 @@ class AppTheme {
       ),
       iconTheme: IconThemeData(color: ink),
       dividerColor: ink.withValues(alpha: 0.12),
-      extensions: [AppSemanticColors(pacha: pacha, erra: erra, ctaText: ctaText)],
+      extensions: [
+        AppSemanticColors(pacha: pacha, erra: erra, ctaText: ctaText),
+        AppMotion.standard,
+      ],
     );
   }
 }
@@ -179,6 +182,127 @@ class AppSemanticColors extends ThemeExtension<AppSemanticColors> {
       erra: Color.lerp(erra, other.erra, t)!,
       ctaText: Color.lerp(ctaText, other.ctaText, t)!,
     );
+  }
+}
+
+/// కదలిక (kadalika) -- the motion token set from MOTION.md sec 2.
+///
+/// Four durations and two curves, named in Telugu for exactly the reason
+/// the colors are (BRANDING sec 1: open the theme file, learn a word).
+/// They live on the theme rather than in a constants file for the same
+/// reason [AppSemanticColors] does -- a token that call sites cannot
+/// bypass is the only kind that survives a deadline.
+///
+/// **Read these through [AppMotion.of], never off [Theme] directly.**
+/// `of` collapses every duration when the platform asks for reduced
+/// motion (MOTION.md sec 7), and that is not a decision each call site
+/// should have to remember to make.
+@immutable
+class AppMotion extends ThemeExtension<AppMotion> {
+  /// రెప్ప -- an eyelid, a blink. Press states and selection
+  /// highlights. Below conscious notice, and meant to be.
+  final Duration reppa;
+
+  /// అడుగు -- a step, a footfall. The default: anything that
+  /// answers a tap.
+  final Duration adugu;
+
+  /// ఊపిరి -- a breath. Things the learner is meant to watch:
+  /// the card flip, a page transition, a card entering.
+  final Duration oopiri;
+
+  /// నిదానం -- unhurriedness. MOTION.md's Class N only: the
+  /// muggu being drawn, marapu ink darkening. Slow because the thing it
+  /// reports is slow, never because slow looks expensive.
+  final Duration nidaanam;
+
+  /// సరళం -- the standard curve. Everything.
+  final Curve saral;
+
+  /// సంబరం -- celebration. The only curve permitted to
+  /// overshoot, and deliberately rationed to the session summary and
+  /// milestones (MOTION.md sec 2, which borrows the argument BRANDING
+  /// sec 6 makes for Gangireddu: scarcity is the design). If everything
+  /// springs, nothing does -- and an app that springs on a correct
+  /// answer has told an adult learner that a correct answer is
+  /// remarkable, which at STRATEGY sec 10's 80-85% target accuracy is
+  /// both untrue and slightly patronizing.
+  final Curve sambaram;
+
+  const AppMotion({
+    required this.reppa,
+    required this.adugu,
+    required this.oopiri,
+    required this.nidaanam,
+    required this.saral,
+    required this.sambaram,
+  });
+
+  /// MOTION.md sec 2's table, verbatim.
+  static const standard = AppMotion(
+    reppa: Duration(milliseconds: 90),
+    adugu: Duration(milliseconds: 180),
+    oopiri: Duration(milliseconds: 320),
+    nidaanam: Duration(milliseconds: 700),
+    saral: Curves.easeOutCubic,
+    sambaram: Curves.elasticOut,
+  );
+
+  /// What [of] returns when the platform asks for reduced motion.
+  ///
+  /// 1ms rather than [Duration.zero]: imperceptible either way, but it
+  /// keeps every animation a real (if instant) one, so controllers still
+  /// run forward -> completed and AnimatedSwitcher still swaps its child
+  /// down the same code path. One less branch to reason about than
+  /// "sometimes there is no animation at all".
+  static const reduced = AppMotion(
+    reppa: Duration(milliseconds: 1),
+    adugu: Duration(milliseconds: 1),
+    oopiri: Duration(milliseconds: 1),
+    nidaanam: Duration(milliseconds: 1),
+    saral: Curves.linear,
+    sambaram: Curves.linear,
+  );
+
+  /// The motion tokens for [context], honouring the platform's
+  /// reduce-motion setting.
+  ///
+  /// Collapsing unconditionally is safe because MOTION.md sec 7 makes it
+  /// a standing rule that no information in Katha is ever carried by
+  /// motion alone -- the muggu has to read correctly as a still frame,
+  /// answer states are colour *and* icon, and so on. The day that stops
+  /// being true, this method is what breaks, which is the right place
+  /// for it to break.
+  static AppMotion of(BuildContext context) {
+    if (MediaQuery.maybeDisableAnimationsOf(context) ?? false) return reduced;
+    return Theme.of(context).extension<AppMotion>() ?? standard;
+  }
+
+  @override
+  AppMotion copyWith({
+    Duration? reppa,
+    Duration? adugu,
+    Duration? oopiri,
+    Duration? nidaanam,
+    Curve? saral,
+    Curve? sambaram,
+  }) =>
+      AppMotion(
+        reppa: reppa ?? this.reppa,
+        adugu: adugu ?? this.adugu,
+        oopiri: oopiri ?? this.oopiri,
+        nidaanam: nidaanam ?? this.nidaanam,
+        saral: saral ?? this.saral,
+        sambaram: sambaram ?? this.sambaram,
+      );
+
+  /// Durations don't meaningfully interpolate. A value half way between
+  /// 180ms and 180ms is 180ms, and a curve half way between two curves
+  /// is not a curve -- so this snaps rather than pretending otherwise.
+  @override
+  AppMotion lerp(ThemeExtension<AppMotion>? other, double t) {
+    if (other is! AppMotion) return this;
+    return t < 0.5 ? this : other;
   }
 }
 
