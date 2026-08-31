@@ -1,0 +1,75 @@
+# ---- Local credentials / secrets ----
+.gh_token
+*.pem
+*.key
+.env
+.env.*
+!.env.example
+
+# ---- macOS ----
+.DS_Store
+._*
+.AppleDouble
+.LSOverride
+.Spotlight-V100
+.Trashes
+
+# ---- Windows ----
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ---- Linux ----
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+
+# ---- Editors / IDEs ----
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/launch.json
+*.swp
+*.swo
+.history/
+
+# ---- Logs & temp ----
+*.log
+*.tmp
+*.bak
+*.orig
+*.rej
+
+# ---- Python (scripts/) ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+
+# ---- Node (tooling) ----
+node_modules/
+npm-debug.log*
+yarn-error.log*
+
+# ---- Flutter/Dart (app/ has its own .gitignore too) ----
+.dart_tool/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+build/
+coverage/
+
+# ---- Claude / agent scratch ----
+.claude/settings.local.json
