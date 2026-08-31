@@ -135,6 +135,26 @@ class ProgressService extends ChangeNotifier {
   static const int _dailyHistoryDays = 30;
 
   final Map<String, Map<Dimension, CardState>> _cards = {};
+
+  /// Cumulative hints taken per (lexeme x dimension) -- the same key shape
+  /// as [_cards] on purpose, because a hint is evidence about exactly the
+  /// thing a card schedules. Today this feeds the rating downgrade in
+  /// [recordReview] and the session summary; the intended use is bigger.
+  ///
+  /// STRATEGY sec 11 wants item-level difficulty signal, and at n=1 the
+  /// population metrics (p-value, discrimination) are dead -- see
+  /// STRATEGY sec 2a. Hint counts survive that, because they're
+  /// within-learner: "she has answered this correctly six times and
+  /// checked the spelling on five of them" is a real difficulty reading
+  /// from one learner, which accuracy alone cannot give. Wiring it into
+  /// FSRS difficulty proper is a Phase E job; recording it honestly from
+  /// day one is what makes that possible later.
+  final Map<String, Map<Dimension, int>> _hintCounts = {};
+
+  /// Concepts the learner has already been taught, so a grammar card is
+  /// shown once rather than every time she opens the unit.
+  final Set<String> _seenConceptIds = {};
+
   // Keyed by 'yyyy-mm-dd' (local date) -> number of items reviewed
   // that day, which is what the muggu (weekly progress grid) reads.
   final Map<String, int> _dailyReviewCounts = {};
@@ -164,6 +184,16 @@ class ProgressService extends ChangeNotifier {
       }
       final dailyJson = data['dailyReviewCounts'] as Map<String, dynamic>? ?? {};
       _dailyReviewCounts.addAll(dailyJson.map((k, v) => MapEntry(k, v as int)));
+      // Absent for anyone upgrading from a build before hints existed --
+      // defaults to "no hints ever taken", which is exactly right.
+      final hintsJson = data['hintCounts'] as Map<String, dynamic>? ?? {};
+      for (final entry in hintsJson.entries) {
+        final perDimension = entry.value as Map<String, dynamic>;
+        _hintCounts[entry.key] = {
+          for (final dEntry in perDimension.entries) Dimension.values.byName(dEntry.key): dEntry.value as int,
+        };
+      }
+      _seenConceptIds.addAll((data['seenConceptIds'] as List?)?.cast<String>() ?? const []);
     }
     _loaded = true;
     notifyListeners();
@@ -180,6 +210,11 @@ class ProgressService extends ChangeNotifier {
             perDimension.map((dim, state) => MapEntry(dim.name, state.toJson())),
           )),
       'dailyReviewCounts': _dailyReviewCounts,
+      'hintCounts': _hintCounts.map((lexemeId, perDimension) => MapEntry(
+            lexemeId,
+            perDimension.map((dim, count) => MapEntry(dim.name, count)),
+          )),
+      'seenConceptIds': _seenConceptIds.toList(),
     };
     await prefs.setString(_prefsKey, jsonEncode(data));
   }
@@ -213,15 +248,46 @@ class ProgressService extends ChangeNotifier {
   int newCount(Dimension dimension, List<String> scope) =>
       scope.where((id) => _cards[id]?[dimension] == null).length;
 
-  Future<void> recordReview(String lexemeId, Dimension dimension, Rating rating) async {
+  /// Records one review outcome.
+  ///
+  /// [hintsTaken] is the number of *penalizing* hints the learner opened
+  /// on this item (audio is free -- see HintKind.audio in exercises/exercise.dart). A correct
+  /// answer that needed help is recorded as [Rating.hard] rather than
+  /// [Rating.good]: it is genuinely a weaker memory than an unaided
+  /// recall, and letting the two look identical to FSRS would inflate
+  /// stability and schedule the item too far out -- the exact failure
+  /// mode STRATEGY sec 11 calls out as "95% in-session and 50% next day".
+  ///
+  /// It is deliberately a downgrade and not a failure. Marking a hinted
+  /// answer wrong would make checking feel like a punishment and push the
+  /// learner back toward guessing, which destroys the signal *and* the
+  /// teaching. This way the honest thing and the comfortable thing are
+  /// the same thing.
+  Future<void> recordReview(
+    String lexemeId,
+    Dimension dimension,
+    Rating rating, {
+    int hintsTaken = 0,
+  }) async {
+    final effective = (hintsTaken > 0 && (rating == Rating.good || rating == Rating.easy))
+        ? Rating.hard
+        : rating;
+
     final perDimension = _cards.putIfAbsent(lexemeId, () => {});
     final card = perDimension.putIfAbsent(
       dimension,
       () => CardState(dueAt: DateTime.now()),
     );
-    card.applyReview(rating);
+    card.applyReview(effective);
 
-    totalXp += switch (rating) {
+    if (hintsTaken > 0) {
+      final perDimensionHints = _hintCounts.putIfAbsent(lexemeId, () => {});
+      perDimensionHints[dimension] = (perDimensionHints[dimension] ?? 0) + hintsTaken;
+    }
+
+    // XP follows the effective rating, so a hinted answer earns half --
+    // STRATEGY sec 8's "XP rewards learning, not time", applied honestly.
+    totalXp += switch (effective) {
       Rating.again => 0,
       Rating.hard => 5,
       Rating.good => 10,
@@ -272,6 +338,39 @@ class ProgressService extends ChangeNotifier {
       final parts = key.split('-').map(int.parse).toList();
       return DateTime(parts[0], parts[1], parts[2]).isBefore(cutoff);
     });
+  }
+
+  /// Hints taken so far on one (lexeme, dimension) pair.
+  int hintsFor(String lexemeId, Dimension dimension) => _hintCounts[lexemeId]?[dimension] ?? 0;
+
+  /// Every hint the learner has ever taken, across all items. Cheap
+  /// aggregate for the session summary and, later, the "You" tab.
+  int get totalHintsTaken =>
+      _hintCounts.values.fold(0, (sum, perDimension) => sum + perDimension.values.fold(0, (a, b) => a + b));
+
+  /// The items she leans on most: (lexemeId, hints) sorted desc. This is
+  /// the seed of STRATEGY sec 7's leech clinic -- a word she keeps
+  /// checking is a word to re-teach, and it surfaces sooner than a lapse
+  /// count does because she can be reaching for the hint every time and
+  /// still be scoring correct.
+  List<MapEntry<String, int>> mostHintedLexemes({int limit = 10}) {
+    final totals = <String, int>{};
+    for (final entry in _hintCounts.entries) {
+      final sum = entry.value.values.fold(0, (a, b) => a + b);
+      if (sum > 0) totals[entry.key] = sum;
+    }
+    final sorted = totals.entries.toList()..sort((a, b) => b.value.compareTo(a.value));
+    return sorted.take(limit).toList();
+  }
+
+  bool hasSeenConcept(String conceptId) => _seenConceptIds.contains(conceptId);
+
+  /// Marks a grammar card as taught. Idempotent, and persisted so the
+  /// card doesn't reappear on every visit to the unit.
+  Future<void> markConceptSeen(String conceptId) async {
+    if (!_seenConceptIds.add(conceptId)) return;
+    await _save();
+    notifyListeners();
   }
 
   /// This calendar week (Monday..Sunday) as muggu day states -- see

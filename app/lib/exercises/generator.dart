@@ -4,12 +4,16 @@ import '../models/content.dart';
 import '../services/progress_service.dart' show Dimension;
 import 'exercise.dart';
 
-/// Turns due lexemes into concrete [Exercise]s. STRATEGY sec 6 lists 12
-/// generators across phases; this is the Phase A slice (recallFlip
-/// already existed, mcqRecognition and audioListen are new). Distractor
-/// choice prefers a lexeme's authored confusion edges
-/// ([Lexeme.confusionLexemeIds]) and falls back to random same-unit
-/// lexemes until Phase B authors the real confusion graph.
+/// Turns content into concrete [Exercise]s. STRATEGY sec 6 lists 12
+/// generators across phases; this is the Phase A slice plus the two
+/// teaching generators.
+///
+/// **Hints are chosen here, not in the UI.** Only a generator knows which
+/// direction it asked its question in, and therefore which reveals would
+/// hand over the answer -- an MCQ showing four transliterations must not
+/// offer "show the script" or "hear it", because either one points at the
+/// right button, while the same generator asking the other direction can
+/// safely offer both. The screen just renders whatever list it's given.
 abstract class ExerciseGenerator {
   Dimension get dimension;
 
@@ -23,6 +27,67 @@ abstract class ExerciseGenerator {
     final rest = pool.where((l) => l.id != target.id && !byConfusion.contains(l)).toList()..shuffle(random);
     final picked = [...byConfusion, ...rest].where((l) => l.id != target.id).take(count).toList();
     return picked;
+  }
+}
+
+/// First meeting with a lexeme: what it looks like in both scripts, what it
+/// means, how it sounds, and it used in a real sentence.
+///
+/// This is the card that was missing. Everything else in Katha asks the
+/// learner to produce or recognise something; nothing introduced it. Not
+/// graded, no XP, no FSRS write -- its entire job is to make the retrieval
+/// that follows it fair.
+class WordIntroGenerator {
+  Exercise generate(Lexeme target, List<ExampleSentence> examples) => Exercise(
+        type: ExerciseType.wordIntro,
+        dimension: Dimension.recognition,
+        lexemeIds: [target.id],
+        prompt: target.translit,
+        script: target.script,
+        correctAnswer: target.gloss,
+        detail: target.gloss,
+        pronunciationTip: target.pronunciationTip,
+        audioText: target.ttsText,
+        audioTranslit: target.translit,
+        examples: examples
+            .take(2)
+            .map((s) => TeachExample(translit: s.translit, script: s.script, translation: s.translation))
+            .toList(),
+      );
+}
+
+/// A grammar/pragmatics card: examples first, then the rule, then the
+/// Hindi bridge (STRATEGY sec 4, sec 10 rule 7).
+///
+/// The ordering is the pedagogy -- showing the rule first turns a pattern
+/// the learner could have noticed into a fact she has to memorise. The UI
+/// keeps the bridge note behind a tap for the same reason.
+class ConceptTeachGenerator {
+  /// [bridgeLanguage] is the learner's L1 bridge; Hindi is the only one
+  /// authored today (STRATEGY sec 1).
+  Exercise? generate(Concept concept, ContentBundle content, {String bridgeLanguage = 'hi'}) {
+    final examples = concept.exampleSentenceIds
+        .map((id) => content.sentenceById[id])
+        .whereType<ExampleSentence>()
+        .map((s) => TeachExample(translit: s.translit, script: s.script, translation: s.translation))
+        .toList();
+
+    // A concept card with no worked examples is just a rule -- exactly the
+    // thing STRATEGY sec 10 rule 7 rules out. Skip it rather than teach it
+    // badly; validate_content.py warns so it gets authored, not lost.
+    if (examples.isEmpty) return null;
+
+    return Exercise(
+      type: ExerciseType.conceptTeach,
+      dimension: Dimension.recognition,
+      lexemeIds: const [],
+      conceptId: concept.id,
+      title: concept.title,
+      body: concept.description,
+      bridgeNote: concept.bridgeFor(bridgeLanguage),
+      bridgeKind: concept.bridgeKind,
+      examples: examples,
+    );
   }
 }
 
@@ -40,6 +105,11 @@ class RecallFlipGenerator extends ExerciseGenerator {
         detail: target.gloss,
         audioText: target.ttsText,
         audioTranslit: target.translit,
+        // The meaning is the card's own reveal, so it isn't a hint here;
+        // the script is extra help the learner can choose to take.
+        hints: [
+          if (target.script != null) Hint(HintKind.script, value: target.script),
+        ],
       );
 }
 
@@ -66,6 +136,18 @@ class McqRecognitionGenerator extends ExerciseGenerator {
       prompt: askForTranslit ? target.gloss : target.translit,
       correctAnswer: correct,
       options: options,
+      audioText: askForTranslit ? null : target.ttsText,
+      audioTranslit: askForTranslit ? null : target.translit,
+      // Direction matters. Gloss -> pick the Telugu: playing the audio or
+      // showing the script identifies the correct option outright, so this
+      // direction gets no hints at all. Telugu -> pick the meaning: both
+      // are safe, because neither says which English gloss is right.
+      hints: askForTranslit
+          ? const []
+          : [
+              const Hint(HintKind.audio),
+              if (target.script != null) Hint(HintKind.script, value: target.script),
+            ],
     );
   }
 }
@@ -90,6 +172,16 @@ class AudioListenGenerator extends ExerciseGenerator {
       options: options,
       audioText: target.ttsText,
       audioTranslit: target.translit,
+      // Showing what was *said* is a real hint here (the exercise is "can
+      // you decode this by ear"), but it still doesn't reveal which gloss
+      // is correct -- so it downgrades the rating rather than being
+      // withheld. This is the case the learner will reach for most: she
+      // heard something, half-caught it, and wants to check the spelling
+      // instead of guessing blind.
+      hints: [
+        Hint(HintKind.translit, value: target.translit),
+        if (target.script != null) Hint(HintKind.script, value: target.script),
+      ],
     );
   }
 }
@@ -107,6 +199,9 @@ class MatchPairsGenerator {
       dimension: dimension,
       lexemeIds: chosen.map((l) => l.id).toList(),
       pairs: chosen.map((l) => MatchPair(lexemeId: l.id, left: l.translit, right: l.gloss)).toList(),
+      // No hints: every transliteration and every gloss in the round is
+      // already on screen, so any reveal would be the answer key.
+      hints: const [],
     );
   }
 }

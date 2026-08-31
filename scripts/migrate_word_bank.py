@@ -1,6 +1,12 @@
 #!/usr/bin/env python3
-"""One-time migration: app/lib/data/word_bank.dart (flat Word/Category model)
--> content/bundle.json (six-entity model per STRATEGY.md section 5).
+"""Content build: app/lib/data/word_bank.dart (flat Word/Category model)
++ content/concepts.json (hand-authored grammar) -> content/bundle.json
+(six-entity model per STRATEGY.md section 5).
+
+Idempotent -- safe to re-run. Lexemes/sentences/units are regenerated from
+word_bank.dart every time; concepts are merged in from concepts.json, which
+is the one hand-authored input. Never hand-edit content/bundle.json: it is
+a build artifact and this script overwrites it.
 
 This is a STRUCTURAL migration only. Register/formality/dialect tags are
 left null ("unaudited": true) wherever the source data doesn't already
@@ -14,6 +20,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "app" / "lib" / "data" / "word_bank.dart"
+CONCEPTS = ROOT / "content" / "concepts.json"
 OUT = ROOT / "content" / "bundle.json"
 
 text = SRC.read_text(encoding="utf-8")
@@ -107,12 +114,41 @@ units = [{
     "prerequisiteUnitIds": [],
 } for c in categories]
 
+# --- merge hand-authored concepts (content/concepts.json) ---
+# Lexemes and sentences are DERIVED from word_bank.dart and get rebuilt on
+# every run; concepts are AUTHORED and have no upstream source, so they
+# live in their own file and are merged in here. That keeps this script
+# idempotent -- rerunning it can't destroy authored content -- and keeps
+# content/bundle.json a pure build artifact nobody should hand-edit.
+concepts = []
+if CONCEPTS.exists():
+    authored = json.loads(CONCEPTS.read_text(encoding="utf-8"))
+    units_by_id = {u["id"]: u for u in units}
+    sentence_ids = {s["id"] for s in sentences}
+    for c in authored.get("concepts", []):
+        unit_id = c.pop("unitId", None)
+        missing = [sid for sid in c.get("exampleSentenceIds", []) if sid not in sentence_ids]
+        if missing:
+            sys.exit(
+                f"concept '{c['id']}' references example sentence(s) not in the bundle: {missing}\n"
+                "Sentence ids are generated from word_bank.dart order, so they can shift when "
+                "that file changes -- fix content/concepts.json rather than editing bundle.json."
+            )
+        c.setdefault("prerequisiteConceptIds", [])
+        c.setdefault("bridge", {})
+        c.setdefault("unaudited", True)
+        concepts.append(c)
+        if unit_id:
+            if unit_id not in units_by_id:
+                sys.exit(f"concept '{c['id']}' attaches to unknown unit '{unit_id}'")
+            units_by_id[unit_id]["conceptIds"].append(c["id"])
+
 bundle = {
     "schemaVersion": 1,
     "contentVersion": "2026.08.29-migration",
     "lexemes": lexemes,
     "forms": [],
-    "concepts": [],
+    "concepts": concepts,
     "sentences": sentences,
     "scenarios": [],
     "units": units,
@@ -120,4 +156,5 @@ bundle = {
 
 OUT.parent.mkdir(exist_ok=True)
 OUT.write_text(json.dumps(bundle, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-print(f"Migrated {len(lexemes)} lexemes, {len(sentences)} sentences, {len(units)} units -> {OUT}")
+print(f"Migrated {len(lexemes)} lexemes, {len(sentences)} sentences, {len(units)} units, "
+      f"{len(concepts)} authored concepts -> {OUT}")

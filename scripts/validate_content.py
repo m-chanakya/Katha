@@ -81,6 +81,45 @@ def main():
         for pid in c.get("prerequisiteConceptIds", []):
             if pid not in concept_ids:
                 errors.append(f"concept {c['id']} references unknown prerequisite concept '{pid}'")
+        for sid in c.get("exampleSentenceIds", []):
+            if sid not in sentence_ids:
+                errors.append(f"concept {c['id']} references unknown example sentence '{sid}'")
+
+    # --- teaching completeness (STRATEGY sec 10 rule 7) ---
+    # A concept with no worked examples is a rule with nothing to notice it
+    # in, and ConceptTeachGenerator refuses to build a card from one -- so
+    # an unexampled concept is silently invisible in the app. That's a
+    # blocking error, not a warning: silent content is worse than absent
+    # content, because nothing tells you it isn't showing.
+    for c in concepts:
+        if not c.get("exampleSentenceIds"):
+            errors.append(
+                f"concept {c['id']} has no exampleSentenceIds -- it would never be shown "
+                "(see ConceptTeachGenerator: examples come before the rule)"
+            )
+        if not c.get("bridge"):
+            warnings.append(f"concept {c['id']} has no L1 bridge note (STRATEGY sec 4)")
+        kind = c.get("bridgeKind")
+        if kind is not None and kind not in ("free", "twist", "new"):
+            errors.append(
+                f"concept {c['id']} has bridgeKind '{kind}' -- must be free/twist/new (STRATEGY sec 4)"
+            )
+
+    # --- concept coverage: a unit that teaches nothing (WARN) ---
+    unitless = [u["id"] for u in units if not u.get("conceptIds")]
+    if unitless:
+        warnings.append(
+            f"{len(unitless)}/{len(units)} unit(s) have no concept attached -- learners get "
+            f"word-intro cards but no grammar teaching there: {sorted(unitless)[:5]}"
+            f"{'...' if len(unitless) > 5 else ''}"
+        )
+
+    unaudited_concepts = [c["id"] for c in concepts if c.get("unaudited")]
+    if unaudited_concepts:
+        warnings.append(
+            f"{len(unaudited_concepts)}/{len(concepts)} concept(s) are unaudited "
+            "(Claude-drafted, pending native-speaker review -- STRATEGY sec 9)"
+        )
 
     # --- prerequisite graph walk: no cycles (units) ---
     def has_cycle(nodes, edges_of):

@@ -327,20 +327,181 @@ too bare. Both fixed and pushed for review as commit `d5be982`:
   couldn't be visually verified from here (only via the browser device
   bridge, which uses the machine's real network and did work).
 
+## Teaching modules + hints (2026-08-31)
+
+The app could test but not teach. Every exercise type was a quiz, so a
+brand-new lexeme's *first ever* appearance in Katha was a four-option MCQ
+about a word the learner had never seen. This pass adds the missing half.
+
+**Scope was chosen with the user, not assumed** -- word-intro cards and
+grammar/bridge concept cards were picked; a unit "what you'll learn"
+screen and a browse/study mode were offered and explicitly *not* taken.
+Don't build those on the assumption they were implied.
+
+### The pedagogy tension, and how it's resolved
+
+STRATEGY sec 10 rule 1 says "retrieval, never exposure. Ban 'here are 10
+new words, tap next.'" Teaching cards are exposure. The reconciliation is
+**placement, not exemption**: `withWordIntros()` inserts a wordIntro
+immediately before that same lexeme's first retrieval in the same queue,
+so exposure and retrieval arrive as one beat. Two intros are never
+adjacent, and `teaching_test.dart` asserts that directly -- if that test
+ever fails, Katha has silently become a flashcard app.
+
+Consequences that fall out of the same rule:
+- Match-the-following rounds are sorted to the **end** of the graded list.
+  They cover five lexemes at once, so an early match round would either
+  emit five intro cards back to back or quiz words she'd never met.
+- Multi-lexeme exercises introduce nothing; their words get introduced by
+  their own single-item exercises earlier in the queue.
+- Concept cards are capped at **one per session** (rule 8: "vocabulary can
+  be plural; grammar cannot") and marked seen so they don't re-teach.
+
+### New exercise types (`app/lib/exercises/`)
+
+`ExerciseType.wordIntro` and `ExerciseType.conceptTeach`, both
+`isTeaching: true` -- they record no review, earn no XP, and don't count
+toward the daily item goal. `Exercise` gained teaching fields (script,
+pronunciationTip, title/body/bridgeNote/bridgeKind, `examples`) and
+`SessionScreen._advanceOnly()` walks past them without touching FSRS.
+
+**Script is always shown on teaching cards** (a deliberate call, not an
+oversight vs STRATEGY sec 1's transliteration-first). Nothing is being
+scored on a teach card, so there's no answer to leak, and free exposure to
+the writing system now makes the Phase F script track a recognition
+problem rather than a cold start. Graded exercises still never show script
+unless the learner asks for it as a hint.
+
+### Hints (`HintKind`, `Hint`, `_HintBar`)
+
+Audio / script / spelling / meaning, on demand, on every graded exercise.
+
+**Hints are chosen by the generator, never by the UI**, because only the
+generator knows which direction it asked its question in. Concretely:
+`McqRecognitionGenerator` asking gloss -> pick-the-Telugu offers **no
+hints at all**, since audio or script would identify the right button;
+the same generator asking Telugu -> pick-the-meaning offers both. Match
+rounds offer nothing (every answer is already on screen). If you add a
+generator, decide its hints there and add the "hint is never the answer"
+case to `teaching_test.dart`.
+
+`HintKind.audio` is **not penalizing** -- the learner has zero ambient
+Telugu (STRATEGY sec 1a.1), so audio exposure is the thing we most want to
+be free. It's still counted, just not scored.
+
+A correct answer with a penalizing hint is recorded as `Rating.hard`
+rather than `Rating.good` (so it comes back sooner, and earns 5 XP not
+10). Deliberately a downgrade and **not** a failure: marking it wrong
+would make checking feel like punishment and push her back to guessing,
+destroying both the signal and the teaching.
+
+`ProgressService` now persists `_hintCounts` per (lexeme × dimension) --
+same key shape as the FSRS cards, because a hint is evidence about exactly
+what a card schedules. `mostHintedLexemes()` is the seed of STRATEGY sec
+7's leech clinic: a word she keeps checking is a word to re-teach, and it
+surfaces *sooner* than a lapse count does, because she can be reaching for
+the hint every time and still scoring correct. This matters at n=1 --
+STRATEGY sec 2a kills p-value and discrimination, but hint counts are
+within-learner and survive. **Not yet done:** nothing feeds hint counts
+into FSRS difficulty proper; that's the Phase E follow-up the data is
+being collected for.
+
+Old saved progress without `hintCounts`/`seenConceptIds` loads fine
+(absent keys default to empty) -- covered by a test.
+
+### Content: 12 hand-authored concepts, all unaudited
+
+`content/concepts.json` is new and is the **first hand-authored content in
+the repo**. `scripts/migrate_word_bank.py` now merges it into
+`bundle.json` and populates `unit.conceptIds`, so re-running the migration
+can't wipe it -- lexemes/sentences stay derived from `word_bank.dart`,
+concepts stay authored, `bundle.json` stays a pure build artifact.
+
+One or two concepts per legacy unit, each with a Hindi bridge tagged
+free/twist/new (STRATEGY sec 4): dative `naaku kaavali`, zero copula,
+kinship-carries-age, the `e-` question-word family, `-ndi` politeness,
+`-vaaram` days, `noppiga undi`, `undi` vs `untundi`, and others.
+
+**All 12 are `unaudited: true` and need Achaarya's review** -- this is
+exactly STRATEGY sec 9's fourth verdict ("nobody says this"), which no
+corpus supplies. Look hardest at `c_undi_untundi` (the habitual vs
+right-now split may be stated too crisply) and `c_rangu` (whether the bare
+adjective vs `<thing> rangu` split is really that tidy). Editing
+`content/concepts.json` and re-running the migration is the review loop
+until Phase B's real queue exists.
+
+New content gates in `validate_content.py`: a concept with no
+`exampleSentenceIds` is a **blocking error**, not a warning, because
+`ConceptTeachGenerator` refuses to build a card from one and it would
+therefore be silently invisible in the app -- silent content is worse than
+absent content. Bad `bridgeKind` values also block; missing bridge notes,
+unaudited concepts and concept-less units warn.
+
+Verified: `flutter analyze` clean, **35/35 tests pass** (was 15), content
+gates pass with warnings, `flutter build web` succeeds. **Not verified
+visually** at time of writing -- the device shell can't reach a browser,
+so the teach cards' actual look needs a pass on the deployed build.
+
+## Motion foundations (2026-08-31) -- MOTION.md items 3 and 5
+
+First code from `MOTION.md` (Project doc, see the pointer above). Scoped
+to the two items whose files nobody else was in: **item 4, restoring the
+card flip, was deliberately not done** -- `session_screen.dart` was being
+rewritten by a concurrent session (the teaching-card / hints work) at the
+time, and two writers on one uncommitted 873-line file is how you lose
+both. Picked up separately; see ISSUES.md KAT-22.
+
+- **`AppMotion` (`app/lib/theme/app_theme.dart`)** -- a `ThemeExtension`
+  beside `AppSemanticColors`, holding MOTION.md sec 2's four durations
+  (`reppa` 90ms / `adugu` 180ms / `oopiri` 320ms / `nidaanam` 700ms) and
+  two curves (`saral` = easeOutCubic everywhere, `sambaram` = elasticOut,
+  rationed to the summary and milestones). Telugu-named for the same
+  reason the colors are (BRANDING sec 1).
+  **Read it via `AppMotion.of(context)`, never off `Theme` directly** --
+  `of` returns the collapsed `AppMotion.reduced` when
+  `MediaQuery.maybeDisableAnimationsOf` is set, which is the app's whole
+  reduce-motion story in one place. Zero new packages.
+- **Boot splash (`app/lib/main.dart`)** -- the two bare
+  `CircularProgressIndicator` gates are gone, replaced by one `క` in
+  Suranna on the paper ground (BRANDING sec 4's icon glyph), cross-fading
+  to the home screen at `oopiri`. Content and progress now share a single
+  `AnimatedSwitcher` so there's one fade rather than a fade into a second
+  identical wait. **This also removes the indeterminate-indicator trap
+  from the boot path** -- the thing that made `pumpAndSettle` unusable
+  (2026-08-29 follow-up 1); `pumpUntil` in `widget_test.dart` still works
+  and was left alone, but its doc comment now overstates the problem
+  (ISSUES.md KAT-23).
+- **Fixed ISSUES.md KAT-12 in the same pass**: `_AppRoot` was a
+  `StatelessWidget` constructing `ContentService().load()` inside
+  `build`, so every rebuild started a fresh fetch. The future is now a
+  field on a `State`, created once. A 400ms floor runs *alongside* the
+  load (not after it), so a warm-cache boot reads as a deliberate beat
+  instead of a 40ms flicker; a slow load is unaffected.
+
+Verified on Flutter 3.47.2 in the device shell: `flutter analyze` clean,
+**35/35 tests pass** (including both widget tests, which boot through the
+new splash), `flutter build web --base-href "/Katha/"` succeeds. Run
+against a *copy* at `~/katha-verify` rather than the mounted folder --
+`flutter analyze` needs to rewrite `.flutter-plugins-dependencies` and
+the mount refuses deletes. **That copy trick is the recipe to reuse**;
+it needs no permission prompt and leaves the real tree untouched.
+
+Committed as its own commit touching only those two files, on purpose,
+so the concurrent session's uncommitted work stayed uncommitted.
+
 ## Next steps (in rough order)
 
-1. **You**: `git push` (this VM has network but no push credentials --
-   see "Device shell" above). Then check the Actions tab for the first
-   real `ci.yml` run against these changes.
-2. `flutter run -d chrome` for a real click-through sanity check by
-   hand -- automated tests passing doesn't mean the session flow
-   *feels* right.
-3. Swap the FSRS-lite scheduler for the real `fsrs` pub package -- a
-   session with the device-shell Flutter setup above can now actually
-   `flutter pub add fsrs` and read its real API instead of guessing.
-   The (lexeme × dimension) shape in `progress_service.dart` was
-   deliberately built to make this a localized swap, not a data-model
-   change.
+1. **Achaarya: review the 12 drafted concepts** in
+   `content/concepts.json` (see above). They are the first content in
+   Katha that makes a claim about how Telugu *works* rather than what a
+   word means, so a wrong one teaches a wrong rule -- higher stakes than
+   the vocabulary audit.
+2. Click through the deployed build and look at the teach cards --
+   automated tests passing doesn't mean the session flow *feels* right.
+   Specifically unverified: whether one concept card plus six intro
+   cards makes a first session too long.
+3. Feed hint counts into FSRS difficulty. The data is being collected
+   now; nothing reads it yet.
 4. Start the native-speaker register audit (content debt #1) — even a
    pass over `content/bundle.json` in a spreadsheet unblocks flipping
    that gate from warning to error.
@@ -370,19 +531,37 @@ too bare. Both fixed and pushed for review as commit `d5be982`:
 
 ## Conventions for future sessions
 
-- Content changes go through `content/bundle.json` (or, once it exists,
-  a real authoring tool) + `scripts/validate_content.py`, never by
-  hand-editing `app/assets/content/bundle.json` directly (that's a
-  build artifact copy, kept in sync by whoever ships a content change —
-  currently a manual `cp`, worth scripting once this happens often).
+- **Content has two halves.** Lexemes/sentences/units are DERIVED from
+  `app/lib/data/word_bank.dart` and regenerated on every migration run;
+  concepts are AUTHORED in `content/concepts.json`. Edit the authored
+  file, re-run `scripts/migrate_word_bank.py`, then
+  `scripts/validate_content.py`. Never hand-edit `content/bundle.json`
+  (a build artifact — the migration overwrites it) and never hand-edit
+  `app/assets/content/bundle.json` (a copy of that artifact, kept in
+  sync by a manual `cp`, worth scripting once this happens often).
 - Model changes go in `app/lib/models/content.dart`. If STRATEGY.md's
   entity list changes, update both this file's doc-comments and this
   section.
 - Every new generator: extend `ExerciseGenerator` in
   `app/lib/exercises/generator.dart`, add a case in
   `session_screen.dart`'s `_buildForType`, and check whether
-  `buildSessionForUnit` should include it.
+  `buildSessionForUnit` should include it. **Also decide its hints
+  there** -- a generator that offers a reveal which identifies its own
+  correct option has quietly deleted the exercise, and only the
+  generator knows the question's direction. Add the case to
+  `teaching_test.dart`'s "hints never reveal the answer" group.
 - Don't add gamification surfaces beyond streak/XP (already existed
   pre-Phase-A) without checking STRATEGY §2 and §8 — hearts, leagues,
   gems and daily-streak-panic are explicitly rejected there, not just
   unbuilt.
+- **No literal `Duration` or `Curve` in a widget.** Read them from
+  `AppMotion.of(context)` (MOTION.md sec 2). A duration written inline is
+  a duration that never honours reduce-motion and never gets retuned.
+- **Nothing inside a flashcard or exercise item may loop, pulse or
+  animate on its own.** BRANDING sec 5 bans illustration on the card
+  because the word is the subject; movement has the same failure mode and
+  is worse, because the eye tracks it involuntarily. Motion *of* the card
+  (flip, enter, leave) is fine. MOTION.md sec 3.
+- **Any new sound needs a line in the earcon spec first** (MOTION.md
+  sec 4c). The spec doesn't exist yet, which means the answer today is
+  "not yet", not "pick one".

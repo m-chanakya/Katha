@@ -108,9 +108,14 @@ class LexemeForm {
       );
 }
 
-/// A teachable grammar/pragmatics point (STRATEGY sec 3). Not yet
-/// populated -- the legacy word list has no grammar concepts, only
-/// vocabulary. Phase C authors these against the A-G section plan.
+/// A teachable grammar/pragmatics point (STRATEGY sec 3) -- the unit of
+/// *teaching*, as opposed to a Lexeme, which is a unit of vocabulary.
+///
+/// A first pass at these is hand-authored in `content/concepts.json` and
+/// merged into the bundle by `scripts/migrate_word_bank.py`; Phase C
+/// replaces them with concepts authored against the A-G section plan.
+/// Everything currently in that file is `unaudited` -- drafted by Claude,
+/// pending Achaarya's native-speaker review (STRATEGY sec 9).
 class Concept {
   final String id;
   final String title;
@@ -120,13 +125,40 @@ class Concept {
   /// L1 bridge cards, e.g. {"hi": "..."} (STRATEGY sec 4).
   final Map<String, String> bridge;
 
+  /// Which of STRATEGY sec 4's three flavours this bridge is:
+  /// 'free' (Hindi already does this), 'twist' (looks familiar, behaves
+  /// differently) or 'new' (no Hindi analog). Drives how the teaching UI
+  /// frames the bridge note -- "you already have this" and "careful, this
+  /// isn't what it looks like" are different pedagogical moves and
+  /// shouldn't render identically.
+  final String? bridgeKind;
+
+  /// Example sentences to show *before* the explanation, in order.
+  /// STRATEGY sec 10 rule 7: context before rule, 3-4 examples, then the
+  /// bridge card. Ids resolve against [ContentBundle.sentenceById].
+  final List<String> exampleSentenceIds;
+
+  /// True until a native speaker has reviewed the explanation and bridge
+  /// note. Same contract as [Lexeme.unaudited]: a warning in
+  /// `validate_content.py`, not a blocking gate.
+  final bool unaudited;
+
   const Concept({
     required this.id,
     required this.title,
     this.description,
     this.prerequisiteConceptIds = const [],
     this.bridge = const {},
+    this.bridgeKind,
+    this.exampleSentenceIds = const [],
+    this.unaudited = false,
   });
+
+  /// The bridge note for the learner's L1. Hindi is the only bridge
+  /// authored today (STRATEGY sec 1: "Hindi, explicitly"), but the lookup
+  /// goes through a language code so adding Marathi or Tamil stays a
+  /// content task rather than a code change.
+  String? bridgeFor(String languageCode) => bridge[languageCode];
 
   factory Concept.fromJson(Map<String, dynamic> j) => Concept(
         id: j['id'] as String,
@@ -134,12 +166,21 @@ class Concept {
         description: j['description'] as String?,
         prerequisiteConceptIds: (j['prerequisiteConceptIds'] as List?)?.cast<String>() ?? const [],
         bridge: (j['bridge'] as Map?)?.cast<String, String>() ?? const {},
+        bridgeKind: j['bridgeKind'] as String?,
+        exampleSentenceIds: (j['exampleSentenceIds'] as List?)?.cast<String>() ?? const [],
+        unaudited: j['unaudited'] as bool? ?? false,
       );
 }
 
 class ExampleSentence {
   final String id;
   final String translit;
+
+  /// Native script for the whole sentence. Null for the migrated Phase 1
+  /// sentences (word_bank.dart only carried script per word), so teaching
+  /// cards fall back to showing transliteration alone rather than a
+  /// half-rendered line.
+  final String? script;
   final String translation;
   final List<String> lexemeIds;
   final String? characterId;
@@ -150,6 +191,7 @@ class ExampleSentence {
   const ExampleSentence({
     required this.id,
     required this.translit,
+    this.script,
     required this.translation,
     this.lexemeIds = const [],
     this.characterId,
@@ -161,6 +203,7 @@ class ExampleSentence {
   factory ExampleSentence.fromJson(Map<String, dynamic> j) => ExampleSentence(
         id: j['id'] as String,
         translit: j['translit'] as String,
+        script: j['script'] as String?,
         translation: j['translation'] as String,
         lexemeIds: (j['lexemeIds'] as List?)?.cast<String>() ?? const [],
         characterId: j['characterId'] as String?,
@@ -241,6 +284,8 @@ class ContentBundle {
 
   late final Map<String, Lexeme> lexemeById = {for (final l in lexemes) l.id: l};
   late final Map<String, Unit> unitById = {for (final u in units) u.id: u};
+  late final Map<String, Concept> conceptById = {for (final c in concepts) c.id: c};
+  late final Map<String, ExampleSentence> sentenceById = {for (final s in sentences) s.id: s};
   late final Map<String, List<ExampleSentence>> sentencesByLexeme = () {
     final map = <String, List<ExampleSentence>>{};
     for (final s in sentences) {
