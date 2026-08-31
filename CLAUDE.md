@@ -12,6 +12,18 @@ lives so nobody re-derives it or re-litigates a locked decision.
   This is the authoritative source for *why* the code looks like this.
 - **Visual/verbal identity** (color, type, logo, mascot Uduta): `BRANDING.md`,
   same Project. Subordinate to STRATEGY.md on product decisions.
+- **Design production sequencing** (what art gets made when, the two
+  lanes, the style-spec gate): `PRODUCTION.md`, same Project. Subordinate
+  to both of the above.
+- **Motion, feedback & audio** (the `AppMotion` token set, the card flip,
+  earcons for correct/not-yet, how Uduta animates and how the household
+  does not): `MOTION.md`, same Project. Subordinate to all three above.
+- **Known defects, doc drift and open decisions**: `ISSUES.md`, same
+  Project. Read it before starting work, and again before "fixing"
+  anything -- the item may already be recorded, already decided, or
+  deliberately `won't fix`. Add to it whenever you find something and
+  don't fix it in the same pass. Rule of thumb: **this file is what's
+  built; `ISSUES.md` is what's wrong.**
 - **User's persistent memory** (`/areas/katha.md`): who the learner is,
   stage, constraints. Read via the memory tool if you have one.
 - `PROJECT_PLAN.md` in this repo is the **Phase 1 plan, superseded** by
@@ -21,7 +33,10 @@ lives so nobody re-derives it or re-litigates a locked decision.
 **If you're a fresh session with none of the above loaded: stop and read
 STRATEGY.md before making any product or data-model decision.** This
 file tells you *what's built*; STRATEGY.md tells you *what it should
-become*.
+become*; ISSUES.md tells you where the two currently disagree -- and
+that last one matters most when a doc's own status section claims
+something is done, because ISSUES.md tracks exactly those claims (see
+its "Doc drift" section).
 
 ## Current phase
 
